@@ -1,0 +1,1996 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Singapore Retirement Readiness Simulator</title>
+<style>
+:root{
+  --navy:#0b2545;--blue:#1769aa;--teal:#087f8c;--green:#18864b;--orange:#c66a08;--red:#b42318;
+  --ink:#172033;--muted:#667085;--line:#d8e0ea;--bg:#f5f7fb;--card:#ffffff;--soft:#eef4f8;
+  --blue-soft:#eaf3ff;--green-soft:#eaf8ef;--orange-soft:#fff5e6;--red-soft:#fff0ef;--teal-soft:#e7f7f6;
+  --shadow:0 12px 32px rgba(11,37,69,.08);--radius:18px;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.48}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:var(--blue)}.hidden{display:none!important}.muted{color:var(--muted)}.num{text-align:right;font-variant-numeric:tabular-nums}.nowrap{white-space:nowrap}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(11,37,69,.98);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 18px;box-shadow:0 3px 16px rgba(0,0,0,.18)}
+.brand{display:flex;align-items:center;gap:11px;min-width:260px}.brand-mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#35c7bd,#78aaf2);color:#08223f;display:grid;place-items:center;font-weight:900;font-size:18px}.brand h1{font-size:17px;line-height:1.2;margin:0}.brand small{display:block;color:#c9d5e5;margin-top:2px}.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.top-actions select{max-width:190px}.btn,.select-control{border:1px solid transparent;border-radius:10px;padding:9px 12px;font-weight:750;transition:.15s}.btn:hover{transform:translateY(-1px)}.btn.primary{background:#37d0c4;color:#08223f}.btn.secondary{background:#fff;color:var(--navy)}.btn.ghost{background:transparent;border-color:#71839a;color:#fff}.btn.soft{background:var(--soft);border-color:var(--line);color:var(--navy)}.btn.danger{background:#fee4e2;color:#9d1c14}.btn.small{padding:6px 9px;font-size:12px}.btn:disabled{opacity:.55;cursor:wait;transform:none}.select-control{background:#fff;color:var(--ink);border:0}
+.shell{display:grid;grid-template-columns:238px minmax(0,1fr);min-height:calc(100vh - 62px)}aside{position:sticky;top:62px;height:calc(100vh - 62px);overflow:auto;background:#fff;border-right:1px solid var(--line);padding:18px 12px}.nav-group{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:#98a2b3;padding:12px 10px 5px}.nav-link{display:flex;align-items:center;gap:9px;text-decoration:none;color:#475467;border-radius:10px;padding:10px 11px;font-size:13px;margin:2px 0}.nav-link:hover,.nav-link.active{background:var(--teal-soft);color:#075e66;font-weight:800}.nav-icon{width:20px;text-align:center}.aside-note{margin:18px 8px 0;border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:11px}.aside-note strong{color:var(--ink)}
+main{width:100%;max-width:1480px;margin:auto;padding:24px;min-width:0}section{scroll-margin-top:82px;margin-bottom:34px}.section-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:14px}.section-head h2{margin:0;color:var(--navy);font-size:25px;letter-spacing:-.02em}.section-head p{margin:5px 0 0;color:var(--muted);max-width:920px}.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;background:var(--soft);color:var(--navy);white-space:nowrap}.pill.sg{background:#fff0ef;color:#a12820}.pill.good{background:var(--green-soft);color:#176a3c}.pill.warn{background:var(--orange-soft);color:#935008}.pill.bad{background:var(--red-soft);color:#992018}.pill.info{background:var(--blue-soft);color:#15538a}
+.card{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}.card h3{margin:0 0 10px;color:var(--navy);font-size:17px}.card h4{margin:16px 0 8px;color:var(--navy)}.grid{display:grid;gap:16px;min-width:0}.grid>*{min-width:0}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}.grid.main-side{grid-template-columns:minmax(0,2.2fr) minmax(290px,.8fr)}.stack{display:flex;flex-direction:column;gap:14px}
+.hero{background:linear-gradient(135deg,#0b2545 0%,#153d67 63%,#0a717d 100%);color:#fff;border:0;overflow:hidden;position:relative}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-110px;top:-120px;background:rgba(255,255,255,.07)}.hero h2{color:#fff;font-size:34px;max-width:760px;margin:0 0 10px;letter-spacing:-.04em}.hero p{color:#d5e2ef;max-width:850px;font-size:16px}.hero .hero-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,.8fr);gap:22px;align-items:center;position:relative;z-index:1}.hero-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:20px}.hero-point{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px}.hero-point strong{display:block}.hero-point small{color:#c8d9e8}.privacy-card{background:rgba(255,255,255,.96);color:var(--ink);border-radius:15px;padding:16px}.privacy-card strong{color:var(--navy)}.hero .privacy-card p{color:var(--muted)}.hero .privacy-card .callout{color:var(--ink)}
+.example-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.example-btn{background:#fff;border:1px solid #b9c7d8;color:var(--navy);border-radius:999px;padding:7px 11px;font-size:12px;font-weight:750}.example-btn:hover{background:var(--blue-soft)}
+.wizard{padding:0;overflow:hidden}.wizard-top{padding:18px 20px;border-bottom:1px solid var(--line);background:#fbfcfe}.stepper{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.step{border:0;background:transparent;text-align:left;padding:8px;border-radius:10px;color:var(--muted)}.step .circle{display:inline-grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#e7ecf3;color:#58677a;font-weight:850;margin-right:7px}.step.active{background:var(--teal-soft);color:#075e66;font-weight:800}.step.active .circle{background:var(--teal);color:#fff}.step.complete .circle{background:var(--green);color:#fff}.progress-track{height:5px;background:#e5eaf1;border-radius:99px;margin-top:12px;overflow:hidden}.progress-bar{height:100%;width:20%;background:linear-gradient(90deg,var(--teal),#3ab9b0);transition:.2s}.wizard-panel{padding:22px}.wizard-panel h3{font-size:22px;margin-bottom:3px}.wizard-panel>.muted{margin-top:0}.wizard-actions{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding:14px 20px;background:#fbfcfe}.wizard-actions .right{display:flex;gap:8px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.form-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.field{display:flex;flex-direction:column;gap:7px;border:1px solid var(--line);background:#fbfcfe;border-radius:12px;padding:12px;min-width:0}.field-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.field-label{font-size:12px;font-weight:800;color:#475467}.badge{border-radius:999px;padding:2px 7px;font-size:9px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}.badge.default{background:#edf1f5;color:#667085}.badge.user{background:#dbeafe;color:#1d4ed8}.badge.example{background:#f3e8ff;color:#7e22ce}.badge.required{background:#fff1e3;color:#a45105}.input-wrap{display:flex;align-items:center;gap:7px}.input-wrap input,.input-wrap select,.field textarea,.field>select{min-width:0;width:100%;border:1px solid #b8c4d2;border-radius:8px;background:#fff;padding:9px 10px;color:var(--ink)}.input-wrap input:focus,.input-wrap select:focus,.field textarea:focus,.field>select:focus{outline:3px solid rgba(23,105,170,.15);border-color:var(--blue)}.suffix{font-size:11px;color:var(--muted);white-space:nowrap}.help{font-size:11px;color:var(--muted)}.tip{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:#dfe8f2;color:var(--navy);font-size:10px;cursor:help}.check-row{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700}.check-row input{width:18px;height:18px}.subcard{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:15px}.subcard.accent{background:var(--teal-soft);border-color:#b9e5e2}.subcard.warning{background:var(--orange-soft);border-color:#f0d5aa}.subcard h4{margin:0 0 8px}.preview-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}.preview{border:1px solid var(--line);background:#fff;border-radius:11px;padding:12px}.preview span{display:block;color:var(--muted);font-size:11px}.preview strong{display:block;color:var(--navy);font-size:20px;margin-top:4px;font-variant-numeric:tabular-nums}
+.callout{border-radius:12px;padding:13px 15px;margin:12px 0;font-size:13px}.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}.callout.warning{background:var(--orange-soft);border-left:4px solid var(--orange)}.callout.danger{background:var(--red-soft);border-left:4px solid var(--red)}.callout.success{background:var(--green-soft);border-left:4px solid var(--green)}.error-list{margin:6px 0 0;padding-left:20px}.error-list li{margin:4px 0}
+details{min-width:0;border:1px solid var(--line);border-radius:12px;background:#fff;margin-top:12px}details summary{padding:12px 14px;cursor:pointer;font-weight:800;color:var(--navy)}details>div{padding:0 14px 14px}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}table{border-collapse:collapse;width:100%;font-size:12px}th,td{padding:9px 10px;border-bottom:1px solid #edf0f4;vertical-align:top}thead th{background:#edf3f8;color:var(--navy);text-align:left;position:sticky;top:0;z-index:1}tbody tr:last-child td{border-bottom:0}tbody tr:hover{background:#fafcff}.input-table input,.input-table select{width:100%;min-width:78px;border:1px solid #c5cfdb;border-radius:7px;padding:6px 7px;background:#fff}.icon-btn{border:0;background:transparent;padding:4px 6px;color:var(--red);font-weight:900}.empty-row{color:var(--muted);text-align:center;padding:18px}
+.result-empty{text-align:center;padding:50px 20px}.result-empty .big-icon{font-size:42px}.result-empty h3{font-size:23px}.status-panel{display:grid;grid-template-columns:190px minmax(0,1fr);gap:22px;align-items:center}.gauge{width:170px;height:170px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--teal) calc(var(--pct,0)*1%),#e8edf3 0);position:relative}.gauge:after{content:"";position:absolute;inset:15px;background:#fff;border-radius:50%}.gauge-content{position:relative;z-index:1;text-align:center}.gauge-content strong{display:block;font-size:32px;color:var(--navy)}.gauge-content span{font-size:11px;color:var(--muted)}.status-copy h3{font-size:25px;margin-bottom:6px}.status-copy p{margin:5px 0;color:#475467}.kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.kpi{border:1px solid var(--line);background:#fff;border-radius:13px;padding:14px;min-height:112px}.kpi span{display:block;color:var(--muted);font-size:11px;font-weight:700}.kpi strong{display:block;color:var(--navy);font-size:23px;margin:7px 0;font-variant-numeric:tabular-nums}.kpi small{color:var(--muted);display:block}.kpi.good{border-left:5px solid var(--green)}.kpi.warn{border-left:5px solid var(--orange)}.kpi.info{border-left:5px solid var(--blue)}.kpi.teal{border-left:5px solid var(--teal)}.assumption-list{margin:0}.assumption-list>div{display:grid;grid-template-columns:1fr auto;gap:12px;padding:8px 0;border-bottom:1px solid #edf0f4}.assumption-list>div:last-child{border-bottom:0}.assumption-list dt{font-size:11px;color:var(--muted)}.assumption-list dd{margin:0;font-size:11px;font-weight:800;text-align:right}.sticky{position:sticky;top:82px}
+.chart{min-height:330px}.chart svg{display:block;width:100%;height:auto;min-height:300px}.chart-title{font-size:15px;font-weight:850;fill:var(--navy)}.axis{stroke:#8996a8;stroke-width:1}.gridline{stroke:#e5eaf0;stroke-width:1}.tick{fill:#667085;font-size:10px}.line{fill:none;stroke:var(--teal);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.line.blue{stroke:var(--blue)}.line.orange{stroke:var(--orange)}.line.green{stroke:var(--green)}.band-wide{fill:rgba(23,105,170,.10)}.band-mid{fill:rgba(8,127,140,.16)}.median-line{fill:none;stroke:var(--teal);stroke-width:3.5}.target-line{stroke:var(--orange);stroke-width:1.5;stroke-dasharray:5 4}.bar{fill:var(--teal)}.bar.secondary{fill:var(--blue)}.donut-layout{display:grid;grid-template-columns:250px 1fr;gap:18px;align-items:center}.legend>div{display:grid;grid-template-columns:12px 1fr auto;align-items:center;gap:8px;font-size:12px;margin:7px 0}.swatch{width:11px;height:11px;border-radius:3px}.allocation-donut{width:220px;height:220px;border-radius:50%;display:grid;place-items:center;position:relative;margin:auto}.allocation-donut:after{content:"";position:absolute;inset:38px;background:#fff;border-radius:50%;box-shadow:inset 0 0 0 1px var(--line)}.allocation-center{position:relative;z-index:1;text-align:center}.allocation-center strong{display:block;font-size:25px;color:var(--navy)}.allocation-center span{display:block;font-size:11px;color:var(--muted)}.heat-table th,.heat-table td{text-align:center;min-width:78px}.heat-table th:first-child,.heat-table td:first-child{text-align:left;position:sticky;left:0;background:#fff;z-index:2}.heat-cell{font-weight:850;border-radius:6px}.heat-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:10px}.heat-legend span{display:inline-flex;align-items:center;gap:5px}
+.milestones{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.milestone{border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px;position:relative}.milestone .age{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--blue-soft);color:var(--blue);font-weight:900}.milestone strong{display:block;margin:9px 0 3px;color:var(--navy)}.milestone small{color:var(--muted)}.lever{border-top:5px solid var(--teal)}.lever h3{font-size:16px}.lever .value{font-size:27px;color:var(--navy);font-weight:900}.lever p{color:var(--muted);font-size:12px}.status-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}.status-dot.pass{background:var(--green)}.status-dot.fail{background:var(--red)}
+.source-list{display:grid;gap:9px}.source-link{display:flex;justify-content:space-between;gap:14px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-decoration:none;background:#fff}.source-link:hover{background:var(--blue-soft)}.source-link span{color:var(--ink);font-weight:700;font-size:12px}.source-link small{color:var(--muted)}
+.rerun{position:fixed;right:18px;bottom:18px;z-index:50;background:#fff6df;border:1px solid #f0ca82;color:#7a4500;border-radius:12px;padding:10px 13px;box-shadow:var(--shadow);font-size:12px;font-weight:800}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:70;background:var(--navy);color:#fff;border-radius:10px;padding:10px 14px;box-shadow:0 10px 30px rgba(0,0,0,.25);font-size:12px}.modal{position:fixed;inset:0;z-index:80;background:rgba(5,18,35,.55);display:grid;place-items:center;padding:20px}.modal-card{background:#fff;border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.28);width:min(1100px,100%);max-height:88vh;overflow:auto;padding:20px}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.modal-head h3{margin:0;color:var(--navy)}.footer{font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding:18px 0 6px;margin-top:20px}
+@media(max-width:1100px){.shell{grid-template-columns:1fr}aside{display:none}.hero .hero-grid{grid-template-columns:1fr}.grid.main-side{grid-template-columns:1fr}.sticky{position:static}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.milestones{grid-template-columns:repeat(3,minmax(0,1fr))}.topbar{align-items:flex-start}.brand{min-width:0}.top-actions{max-width:62%}}
+@media(max-width:760px){main{padding:14px}.topbar{position:static;display:block}.top-actions{max-width:none;margin-top:10px;justify-content:flex-start}.shell{min-height:auto}.hero h2{font-size:27px}.hero-points{grid-template-columns:minmax(0,1fr)}.stepper{grid-template-columns:repeat(5,48px);overflow:auto}.step{font-size:0;text-align:center}.step .circle{margin:0}.form-grid,.form-grid.three,.grid.two,.grid.three,.grid.four,.kpi-grid,.preview-grid{grid-template-columns:minmax(0,1fr)}.status-panel{grid-template-columns:1fr;justify-items:center;text-align:center}.milestones{grid-template-columns:1fr 1fr}.donut-layout{grid-template-columns:1fr}.wizard-panel{padding:16px}.wizard-actions{padding:12px 16px}.section-head{display:block}.section-head .pill{margin-top:8px}.gauge{width:150px;height:150px}.brand h1{font-size:16px}}
+@media print{.topbar,aside,.wizard-actions,.example-row,.rerun,.toast,.btn{display:none!important}.shell{display:block}main{max-width:none;padding:0}.card{box-shadow:none;break-inside:avoid}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">SG</div><div><h1>Singapore Retirement Readiness Simulator</h1><small>CPF, SRS and liquid-asset planning in one place</small></div></div>
+  <div class="top-actions">
+    <select id="scenarioSelect" class="select-control" aria-label="Saved scenario"><option value="">Current plan</option></select>
+    <button class="btn ghost" id="saveScenarioBtn">Save</button>
+    <button class="btn ghost" id="compareBtn">Compare</button>
+    <button class="btn secondary" id="openSetupBtn">Quick setup</button>
+    <button class="btn primary" id="runTopBtn">Run simulation</button>
+  </div>
+</header>
+<div class="shell">
+<aside>
+  <div class="nav-group">Plan</div>
+  <a class="nav-link active" href="#start"><span class="nav-icon">①</span>Quick setup</a>
+  <a class="nav-link" href="#results"><span class="nav-icon">②</span>Results</a>
+  <a class="nav-link" href="#improve"><span class="nav-icon">③</span>Improve the plan</a>
+  <div class="nav-group">Singapore</div>
+  <a class="nav-link" href="#singapore"><span class="nav-icon">SG</span>CPF, SRS & housing</a>
+  <a class="nav-link" href="#advanced"><span class="nav-icon">⚙</span>Advanced assumptions</a>
+  <a class="nav-link" href="#methodology"><span class="nav-icon">i</span>How it works</a>
+  <div class="aside-note"><strong>Your data stays in this browser.</strong><br>This file makes no network calls. Saved plans use local browser storage unless you export them.</div>
+</aside>
+<main>
+<section id="start">
+  <div class="card hero">
+    <div class="hero-grid">
+      <div>
+        <span class="pill sg">Singapore context · 2026 reference rules</span>
+        <h2>Can you retire at the age you want?</h2>
+        <p>Enter a few numbers, then test whether your liquid investments, SRS withdrawals and CPF LIFE income can support your retirement spending until you reach your chosen planning age.</p>
+        <div class="hero-points">
+          <div class="hero-point"><strong>Start simple</strong><small>Only five essential steps. Advanced assumptions stay optional.</small></div>
+          <div class="hero-point"><strong>See the bridge</strong><small>Understand the years before SRS access and CPF LIFE payouts begin.</small></div>
+          <div class="hero-point"><strong>Test uncertainty</strong><small>10,000 correlated market paths by default, plus stress tests.</small></div>
+        </div>
+        <div class="example-row">
+          <button class="example-btn" data-example="early">Fictional example: early career</button>
+          <button class="example-btn" data-example="mid">Mid-career household</button>
+          <button class="example-btn" data-example="self">Self-employed</button>
+          <button class="example-btn" data-example="foreign">Foreigner / no CPF</button>
+          <button class="example-btn" data-example="near">Near retirement</button>
+          <button class="example-btn" data-example="retired">Already retired</button>
+        </div>
+      </div>
+      <div class="privacy-card">
+        <strong>What to prepare</strong>
+        <p class="muted">Your age, desired retirement age, liquid savings and investments, monthly retirement spending, future contributions, SRS balance and an official CPF LIFE payout estimate if applicable.</p>
+        <div class="callout info" style="margin-bottom:0"><strong>For couples:</strong> use combined assets and spending, then add each person’s CPF LIFE or pension as a separate income stream.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card wizard" id="setupWizard" style="margin-top:16px">
+    <div class="wizard-top">
+      <div class="stepper" role="tablist" aria-label="Setup steps">
+        <button class="step active" data-step="1"><span class="circle">1</span>About you</button>
+        <button class="step" data-step="2"><span class="circle">2</span>What you have</button>
+        <button class="step" data-step="3"><span class="circle">3</span>What you add</button>
+        <button class="step" data-step="4"><span class="circle">4</span>Retirement spending</button>
+        <button class="step" data-step="5"><span class="circle">5</span>CPF, SRS & review</button>
+      </div>
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+    </div>
+    <div id="wizardError" class="callout danger hidden" style="margin:14px 20px 0"></div>
+
+    <div class="wizard-panel" data-panel="1">
+      <h3>About your plan</h3><p class="muted">Use the age of the person whose retirement date drives the plan.</p>
+      <div class="form-grid">
+        <label class="field"><span class="field-head"><span class="field-label">Plan name</span><span class="badge default">Optional</span></span><div class="input-wrap"><input id="planName" data-key="planName" type="text" value="My retirement plan"></div></label>
+        <label class="field"><span class="field-head"><span class="field-label">Plan covers</span><span class="badge default">Planning choice</span></span><select id="planScope" data-key="planScope"><option value="individual">One person</option><option value="household">A household or couple</option></select><span class="help">For a household, enter combined finances and add each person’s income separately.</span></label>
+        <label class="field"><span class="field-head"><span class="field-label">Singapore status</span><span class="badge default">Planning choice</span></span><select id="residency" data-key="residency"><option value="citizen_pr">Singapore Citizen / PR</option><option value="foreigner">Foreigner / no CPF</option></select><span class="help">This changes CPF visibility and the SRS contribution-cap warning.</span></label>
+        <label class="field"><span class="field-head"><span class="field-label">Work profile</span><span class="badge default">Planning choice</span></span><select id="employment" data-key="employment"><option value="employee">Employee</option><option value="self_employed">Self-employed / platform worker</option><option value="not_working">Not currently working</option><option value="retired">Already retired</option></select></label>
+        <label class="field"><span class="field-head"><span class="field-label">Current age</span><span class="badge required">Required</span></span><div class="input-wrap"><input id="currentAge" data-key="currentAge" data-number="1" type="number" min="18" max="100" placeholder="e.g. 40"><span class="suffix">years</span></div></label>
+        <label class="field"><span class="field-head"><span class="field-label">Desired retirement age</span><span class="badge required">Required</span></span><div class="input-wrap"><input id="retirementAge" data-key="retirementAge" data-number="1" type="number" min="18" max="100" placeholder="e.g. 60"><span class="suffix">years</span></div><span class="help">Your own target, not Singapore’s statutory retirement age.</span></label>
+        <label class="field"><span class="field-head"><span class="field-label">Plan until age</span><span class="badge default">Default</span></span><div class="input-wrap"><input id="planningAge" data-key="planningAge" data-number="1" type="number" min="60" max="110" value="95"><span class="suffix">years</span></div><span class="help">Age 95 is a planning default, not a life-expectancy forecast.</span></label>
+        <label class="field"><span class="field-head"><span class="field-label">Target simulated success</span><span class="badge default">Default</span></span><div class="input-wrap"><select id="successTarget" data-key="successTarget" data-number="1"><option value="0.7">70%</option><option value="0.8">80%</option><option value="0.85">85%</option><option value="0.9" selected>90%</option><option value="0.95">95%</option></select></div><span class="help">The share of modelled paths that fully fund the defined objective.</span></label>
+      </div>
+    </div>
+
+    <div class="wizard-panel hidden" data-panel="2">
+      <h3>What you have today</h3><p class="muted">Keep emergency cash, MediSave and your primary home separate unless you explicitly plan to use them.</p>
+      <div class="form-grid">
+        <label class="field"><span class="field-head"><span class="field-label">Cash and deposits</span><span class="badge user">Your input</span></span><div class="input-wrap"><span class="suffix">S$</span><input id="cashSavings" data-key="cashSavings" data-number="1" type="number" min="0" step="1000" value="0"></div></label>
+        <label class="field"><span class="field-head"><span class="field-label">Investments outside SRS</span><span class="badge user">Your input</span></span><div class="input-wrap"><span class="suffix">S$</span><input id="investments" data-key="investments" data-number="1" type="number" min="0" step="1000" value="0"></div><span class="help">Shares, ETFs, unit trusts, bonds and other investable assets.</span></label>
+        <label class="field"><span class="field-head"><span class="field-label">Other liquid retirement assets</span><span class="badge user">Your input</span></span><div class="input-wrap"><span class="suffix">S$</span><input id="otherLiquid" data-key="otherLiquid" data-number="1" type="number" min="0" step="1000" value="0"></div></label>
+        <label class="field"><span class="field-head"><span class="field-label">Emergency reserve to exclude</span><span class="badge user">Your input</span></span><div class="input-wrap"><span class="suffix">S$</span><input id="emergencyFund" data-key="emergencyFund" data-number="1" type="number" min="0" step="1000" value="0"></div><span class="help">This amount stays outside the retirement simulation.</span></label>
+        <label class="field"><span class="field-head"><span class="field-label">SRS balance</span><span class="badge user">Your input</span></span><div class="input-wrap"><span class="suffix">S$</span><input id="srsBalance" data-key="srsBalance" data-number="1" type="number" min="0" step="1000" value="0"></div><span class="help">Modelled separately because access and tax treatment differ.</span></label>
+        <div class="field" id="cpfBalancesField"><span class="field-head"><span class="field-label">CPF balances</span><span class="badge user">Your input</span></span><div class="form-grid three">
+          <label><span class="help">OA</span><div class="input-wrap"><span class="suffix">S$</span><input id="cpfOA" data-key="cpfOA" data-number="1" type="number" min="0" value="0"></div></label>
+          <label><span class="help">SA / RA</span><div class="input-wrap"><span class="suffix">S$</span><input id="cpfSARA" data-key="cpfSARA" data-number="1" type="number" min="0" value="0"></div></label>
+          <label><span class="help">MediSave</span><div class="input-wrap"><span class="suffix">S$</span><input id="cpfMA" data-key="cpfMA" data-number="1" type="number" min="0" value="0"></div></label>
+        </div><span class="help">MediSave is shown for context but is not treated as spendable retirement cash.</span></div>
+      </div>
+      <div class="preview-grid">
+        <div class="preview"><span>Liquid assets used</span><strong id="liquidPreview">S$0</strong></div>
+        <div class="preview"><span>SRS tracked separately</span><strong id="srsPreview">S$0</strong></div>
+        <div class="preview"><span>CPF shown separately</span><strong id="cpfPreview">S$0</strong></div>
+      </div>
+      <div class="callout warning hidden" id="emergencyWarning"></div>
+    </div>
+
+    <div class="wizard-panel hidden" data-panel="3">
+      <h3>What you expect to add</h3><p class="muted">Use contributions you can sustain, not a one-off good month.</p>
+      <div class="form-grid">
+        <label class="field"><span class="field-head"><span class="field-label">Monthly investment outside SRS</span><span class="badge user">Your input</span></span><div class="input-wrap"><span class="suffix">S$</span><input id="monthlyContribution" data-key="monthlyContribution" data-number="1" type="number" min="0" step="100" value="0"><span class="suffix">/ month</span></div></label>
+        <label class="field"><span class="field-head"><span class="field-label">Monthly SRS contribution</span><span class="badge user">Your input</span></span><div class="input-wrap"><span class="suffix">S$</span><input id="monthlySRS" data-key="monthlySRS" data-number="1" type="number" min="0" step="50" value="0"><span class="suffix">/ month</span></div><span class="help" id="srsCapHelp">Annual cap warning appears here.</span></label>
+        <label class="field"><span class="field-head"><span class="field-label">Annual contribution growth</span><span class="badge default">Default</span></span><div class="input-wrap"><input id="contributionGrowth" data-key="contributionGrowth" data-number="1" data-percent="1" type="number" min="-50" max="50" step="0.1" value="2"><span class="suffix">%</span></div><span class="help">For salary growth or step-ups; 2% is an editable planning default.</span></label>
+      </div>
+      <details id="cpfHelperDetails">
+        <summary>CPF contribution helper for employees (optional)</summary>
+        <div>
+          <div class="callout info">Uses 2026 full CPF rates for Singapore Citizens and PRs from the third year onward, ordinary wages only, and the S$8,000 monthly Ordinary Wage ceiling. It excludes bonuses, Additional Wages and special cases. It does not automatically add anything to the retirement simulation.</div>
+          <div class="form-grid">
+            <label class="field"><span class="field-head"><span class="field-label">Monthly ordinary wage</span><span class="badge user">Your input</span></span><div class="input-wrap"><span class="suffix">S$</span><input id="monthlySalary" data-key="monthlySalary" data-number="1" type="number" min="0" step="100" value="0"></div></label>
+            <label class="field"><span class="field-head"><span class="field-label">Share of OA intended for retirement</span><span class="badge default">Default 0%</span></span><div class="input-wrap"><input id="oaRetainedPct" data-key="oaRetainedPct" data-number="1" data-percent="1" type="number" min="0" max="100" step="1" value="0"><span class="suffix">%</span></div><span class="help">OA may be used for housing, so the tool does not assume it remains for retirement.</span></label>
+          </div>
+          <div id="cpfContributionResult" class="preview-grid"></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="wizard-panel hidden" data-panel="4">
+      <h3>Your retirement lifestyle</h3><p class="muted">Enter monthly spending in today’s Singapore dollars. The model increases it with inflation.</p>
+      <div class="form-grid">
+        <label class="field"><span class="field-head"><span class="field-label">Desired monthly retirement spending</span><span class="badge required">Required</span></span><div class="input-wrap"><span class="suffix">S$</span><input id="monthlySpending" data-key="monthlySpending" data-number="1" type="number" min="1" step="100" placeholder="e.g. 4,000"><span class="suffix">today</span></div><span class="help">Include housing, healthcare, insurance, travel and support for dependants.</span></label>
+        <label class="field"><span class="field-head"><span class="field-label">Long-term inflation assumption</span><span class="badge default">Planning default</span></span><div class="input-wrap"><input id="inflation" data-key="inflation" data-number="1" data-percent="1" type="number" min="-2" max="15" step="0.1" value="2"><span class="suffix">% / year</span></div></label>
+        <div class="field"><span class="field-head"><span class="field-label">Flexible spending</span><span class="badge default">Optional</span></span><label class="check-row"><input id="flexEnabled" data-key="flexEnabled" type="checkbox"> Allow temporary spending cuts after weak markets</label><div class="input-wrap"><input id="flexCutPct" data-key="flexCutPct" data-number="1" data-percent="1" type="number" min="0" max="50" step="1" value="15"><span class="suffix">% maximum cut</span></div><span class="help">The tool never cuts spending unless this is switched on.</span></div>
+      </div>
+      <details>
+        <summary>Build the monthly spending total by category</summary>
+        <div>
+          <div class="form-grid four">
+            <label class="field"><span class="field-label">Core living</span><div class="input-wrap"><span class="suffix">S$</span><input id="budgetCore" type="number" min="0" value="0"></div></label>
+            <label class="field"><span class="field-label">Housing</span><div class="input-wrap"><span class="suffix">S$</span><input id="budgetHousing" type="number" min="0" value="0"></div></label>
+            <label class="field"><span class="field-label">Healthcare & insurance</span><div class="input-wrap"><span class="suffix">S$</span><input id="budgetHealth" type="number" min="0" value="0"></div></label>
+            <label class="field"><span class="field-label">Lifestyle, travel & giving</span><div class="input-wrap"><span class="suffix">S$</span><input id="budgetLifestyle" type="number" min="0" value="0"></div></label>
+          </div>
+          <button class="btn soft small" id="useBudgetBtn" style="margin-top:10px">Use category total</button>
+        </div>
+      </details>
+      <details open>
+        <summary>One-off future expenses or inflows</summary>
+        <div>
+          <p class="help">Enter amounts in today’s dollars. Positive amounts are inflows; negative amounts are expenses. Examples: renovation, education, inheritance or a major medical cost.</p>
+          <div class="table-wrap"><table class="input-table"><thead><tr><th>Description</th><th>Age</th><th>Amount (S$ today)</th><th></th></tr></thead><tbody id="oneOffBody"></tbody></table></div>
+          <button class="btn soft small" id="addOneOffBtn" style="margin-top:9px">+ Add cash flow</button>
+        </div>
+      </details>
+    </div>
+
+    <div class="wizard-panel hidden" data-panel="5">
+      <h3>CPF, SRS and final review</h3><p class="muted">Singapore retirement income starts at different ages. Enter only amounts you expect to receive.</p>
+      <div class="grid two">
+        <div class="subcard accent" id="cpfLifeCard">
+          <h4>CPF LIFE</h4>
+          <div class="form-grid">
+            <label class="field"><span class="field-head"><span class="field-label">Monthly payout at start age</span><span class="badge user">Your input</span></span><div class="input-wrap"><span class="suffix">S$</span><input id="cpfLifeMonthly" data-key="cpfLifeMonthly" data-number="1" type="number" min="0" step="50" value="0"><span class="suffix">/ month</span></div><span class="help">Use the amount from CPF Board’s official estimator where possible.</span></label>
+            <label class="field"><span class="field-head"><span class="field-label">Payout start age</span><span class="badge default">Default 65</span></span><div class="input-wrap"><input id="cpfLifeStartAge" data-key="cpfLifeStartAge" data-number="1" type="number" min="65" max="70" value="65"><span class="suffix">years</span></div></label>
+            <label class="field"><span class="field-head"><span class="field-label">CPF LIFE plan</span><span class="badge user">Your input</span></span><select id="cpfLifePlan" data-key="cpfLifePlan"><option value="standard">Standard — steady nominal payout</option><option value="escalating">Escalating — 2% yearly increase</option><option value="basic">Basic — simplified as steady here</option></select></label>
+          </div>
+          <details>
+            <summary>Rough 2026 payout reference</summary>
+            <div>
+              <p class="help">This helper interpolates CPF Board examples for a male member on the Standard Plan. It is not a personal quote and may be unsuitable for younger cohorts.</p>
+              <div class="input-wrap"><span class="suffix">RA at age 55 S$</span><input id="cpfReferenceRA" type="number" min="0" step="1000" value="0"><button class="btn soft small" id="estimateCpfBtn" type="button">Estimate</button></div>
+              <div id="cpfReferenceResult" class="callout info hidden"></div>
+            </div>
+          </details>
+        </div>
+        <div class="subcard">
+          <h4>SRS drawdown</h4>
+          <div class="form-grid">
+            <label class="field"><span class="field-label">Penalty-free access age</span><select id="srsAccessAge" data-key="srsAccessAge" data-number="1"><option value="62">62 — older locked-in age</option><option value="63">63 — older locked-in age</option><option value="64" selected>64 — current statutory age</option></select><span class="help">Use the statutory retirement age prevailing when you made your first SRS contribution.</span></label>
+            <label class="field"><span class="field-label">Start withdrawals at age</span><div class="input-wrap"><input id="srsWithdrawalStartAge" data-key="srsWithdrawalStartAge" data-number="1" type="number" min="18" max="100" value="64"><span class="suffix">years</span></div></label>
+            <label class="field"><span class="field-label">Withdrawal period</span><div class="input-wrap"><input id="srsWithdrawalYears" data-key="srsWithdrawalYears" data-number="1" type="number" min="1" max="10" value="10"><span class="suffix">years</span></div></label>
+            <label class="field"><span class="field-label">Effective tax rate on taxable half</span><div class="input-wrap"><input id="srsTaxRate" data-key="srsTaxRate" data-number="1" data-percent="1" type="number" min="0" max="30" step="0.1" value="0"><span class="suffix">%</span></div><span class="help">The model applies this rate to 50% of each withdrawal.</span></label>
+          </div>
+        </div>
+      </div>
+
+      <details>
+        <summary>Additional CPF LIFE, pension, rental or part-time income</summary>
+        <div>
+          <p class="help">Amounts are monthly nominal SGD at the stream’s start age. Use one row per person or income source.</p>
+          <div class="table-wrap"><table class="input-table"><thead><tr><th>Name</th><th>Monthly S$</th><th>Start age</th><th>End age</th><th>Yearly increase</th><th></th></tr></thead><tbody id="incomeBody"></tbody></table></div>
+          <button class="btn soft small" id="addIncomeBtn" style="margin-top:9px">+ Add income stream</button>
+        </div>
+      </details>
+
+      <details>
+        <summary>Primary-home monetisation and CPF cash withdrawal</summary>
+        <div>
+          <div class="callout warning">The primary home is excluded unless you deliberately enter a monetisation percentage. Property growth, lease decay, transaction costs and housing-policy conditions are not modelled.</div>
+          <div class="form-grid three">
+            <label class="field"><span class="field-label">Current home value</span><div class="input-wrap"><span class="suffix">S$</span><input id="homeValue" data-key="homeValue" data-number="1" type="number" min="0" value="0"></div></label>
+            <label class="field"><span class="field-label">Outstanding mortgage</span><div class="input-wrap"><span class="suffix">S$</span><input id="homeMortgage" data-key="homeMortgage" data-number="1" type="number" min="0" value="0"></div></label>
+            <label class="field"><span class="field-label">Share of net equity to unlock</span><div class="input-wrap"><input id="homeUnlockPct" data-key="homeUnlockPct" data-number="1" data-percent="1" type="number" min="0" max="100" value="0"><span class="suffix">%</span></div></label>
+            <label class="field"><span class="field-label">Monetisation age</span><div class="input-wrap"><input id="homeUnlockAge" data-key="homeUnlockAge" data-number="1" type="number" min="18" max="100" value="65"><span class="suffix">years</span></div></label>
+            <label class="field"><span class="field-label">Costs / haircut</span><div class="input-wrap"><input id="homeHaircut" data-key="homeHaircut" data-number="1" data-percent="1" type="number" min="0" max="50" value="5"><span class="suffix">%</span></div></label>
+            <label class="field"><span class="field-label">CPF cash available outside CPF LIFE</span><div class="input-wrap"><span class="suffix">S$</span><input id="cpfLumpSum" data-key="cpfLumpSum" data-number="1" type="number" min="0" value="0"></div><span class="help">Only include an amount not already supporting the entered CPF LIFE payout.</span></label>
+            <label class="field"><span class="field-label">CPF cash age</span><div class="input-wrap"><input id="cpfLumpSumAge" data-key="cpfLumpSumAge" data-number="1" type="number" min="55" max="100" value="55"><span class="suffix">years</span></div></label>
+          </div>
+          <div class="preview-grid"><div class="preview"><span>Home proceeds included</span><strong id="homeProceedsPreview">S$0</strong></div><div class="preview"><span>CPF cash included</span><strong id="cpfLumpPreview">S$0</strong></div></div>
+        </div>
+      </details>
+
+      <div class="subcard" style="margin-top:14px"><h4>Review before running</h4><div id="reviewSummary" class="grid three"></div></div>
+    </div>
+
+    <div class="wizard-actions">
+      <button class="btn soft" id="backBtn">Back</button>
+      <div class="right"><button class="btn soft" id="nextBtn">Next</button><button class="btn primary hidden" id="runWizardBtn">Run my plan</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="section-head"><div><h2>Your retirement result</h2><p>Results are conditional on the assumptions you entered. They are not a guarantee or a probability that real life will match the model.</p></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><select id="valueMode" class="select-control" style="border:1px solid var(--line)"><option value="real">Today's SGD (real)</option><option value="nominal">Future SGD (nominal)</option></select><span class="pill info" id="runMeta">Not run yet</span></div></div>
+  <div class="card result-empty" id="resultEmpty"><div class="big-icon">◎</div><h3>Complete the quick setup to see your result</h3><p class="muted">The simulator needs your age, target retirement age and retirement spending before it can run.</p><button class="btn primary" id="emptySetupBtn">Go to quick setup</button></div>
+  <div id="resultContent" class="hidden">
+    <div class="card status-panel"><div class="gauge" id="successGauge"><div class="gauge-content"><strong id="successRate">—</strong><span>simulated paths funded</span></div></div><div class="status-copy"><span class="pill" id="statusPill">—</span><h3 id="statusHeadline">—</h3><p id="statusExplanation"></p><p id="statusCaveat" class="muted"></p></div></div>
+    <div class="kpi-grid" id="kpiGrid" style="margin-top:14px"></div>
+    <div id="resultWarnings"></div>
+    <div class="grid main-side" style="margin-top:16px"><div class="card chart" id="fanChart"></div><div class="card sticky"><h3>Assumptions used</h3><dl class="assumption-list" id="assumptionList"></dl><button class="btn soft small" id="editAssumptionsBtn" style="margin-top:12px">Edit inputs</button></div></div>
+    <div class="grid two" style="margin-top:16px"><div class="card chart" id="depletionChart"></div><div class="card" id="bridgeCard"></div></div>
+    <div class="grid two" style="margin-top:16px"><div class="card" id="allocationCard"></div><div class="card chart" id="cashflowChart"></div></div>
+    <div class="grid two" style="margin-top:16px"><div class="card"><h3>Ending retirement resources</h3><div class="table-wrap"><table><thead><tr><th>Percentile</th><th class="num">Value</th></tr></thead><tbody id="percentileBody"></tbody></table></div></div><div class="card"><h3>Simple FI screening</h3><p class="help">A rough withdrawal-rate screen. It ignores the detailed timing of CPF LIFE and SRS access; the simulation above is the primary view.</p><div class="table-wrap"><table><thead><tr><th>Rate</th><th class="num">Target</th><th class="num">Progress</th><th>Years C / B / O</th></tr></thead><tbody id="fiBody"></tbody></table></div></div></div>
+  </div>
+</section>
+
+<section id="improve">
+  <div class="section-head"><div><h2>Ways to improve the plan</h2><p>These are modelled trade-offs, not recommendations. Change one lever at a time and rerun.</p></div><span class="pill">Decision support</span></div>
+  <div class="card result-empty" id="improveEmpty"><h3>Run the plan first</h3><p class="muted">The tool will calculate the retirement-age, savings and spending levers after a simulation.</p></div>
+  <div id="improveContent" class="hidden">
+    <div class="grid three" id="leverCards"></div>
+    <div class="grid two" style="margin-top:16px"><div class="card chart" id="ageChart"></div><div class="card chart" id="spendingChart"></div></div>
+    <div class="grid two" style="margin-top:16px"><div class="card chart" id="contributionChart"></div><div class="card" id="plainDrivers"></div></div>
+    <div class="grid two" style="margin-top:16px"><div class="card chart" id="sensitivityChart"></div><div class="card" id="heatmapCard"></div></div>
+    <div class="card" style="margin-top:16px"><h3>Stress tests</h3><p class="help">Each stress uses the same diagnostic random seed for a cleaner comparison. Smaller diagnostic samples are used, so small differences should not be over-interpreted.</p><div class="table-wrap"><table><thead><tr><th>Scenario</th><th class="num">Success</th><th class="num">Median ending</th><th class="num">10th percentile</th><th>Median depletion age</th></tr></thead><tbody id="stressBody"></tbody></table></div></div>
+  </div>
+</section>
+
+<section id="singapore">
+  <div class="section-head"><div><h2>Singapore retirement details</h2><p>Useful milestones and current reference rules. Your personal retirement age can be earlier or later than the statutory age.</p></div><span class="pill sg">Reference date: 8 Sep 2026</span></div>
+  <div class="milestones">
+    <div class="milestone"><span class="age">55</span><strong>CPF retirement milestone</strong><small>Retirement Account arrangements and withdrawal rules become relevant.</small></div>
+    <div class="milestone"><span class="age">64</span><strong>Statutory retirement age</strong><small>Current minimum retirement age from 1 July 2026.</small></div>
+    <div class="milestone"><span class="age">65</span><strong>CPF LIFE can begin</strong><small>Earliest payout eligibility age for most members.</small></div>
+    <div class="milestone"><span class="age">69</span><strong>Re-employment age</strong><small>Eligible employees may be offered re-employment up to this age.</small></div>
+    <div class="milestone"><span class="age">70</span><strong>Latest CPF LIFE start</strong><small>Payouts start automatically by this age if no earlier instruction is made.</small></div>
+  </div>
+  <div class="grid two" style="margin-top:16px">
+    <div class="card"><h3>Your Singapore bridge</h3><div id="sgBridgeSummary" class="callout info">Enter your ages and retirement income to see the bridge.</div><div id="sgMilestoneTable"></div></div>
+    <div class="card"><h3>2026 CPF retirement-sum references</h3><div class="preview-grid"><div class="preview"><span>Basic Retirement Sum</span><strong>S$110,200</strong></div><div class="preview"><span>Full Retirement Sum</span><strong>S$220,400</strong></div><div class="preview"><span>Enhanced Retirement Sum</span><strong>S$440,800</strong></div></div><div class="callout warning">These are 2026 reference amounts for members turning 55 in 2026. Younger users will face different future sums. Do not treat them as universal retirement targets.</div></div>
+  </div>
+  <div class="grid two" style="margin-top:16px">
+    <div class="card"><h3>CPF contribution helper</h3><div id="sgCpfHelper"></div></div>
+    <div class="card"><h3>SRS checks</h3><div id="sgSrsChecks"></div></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Official sources used for the Singapore settings</h3><div class="source-list">
+    <a class="source-link" target="_blank" rel="noreferrer" href="https://www.cpf.gov.sg/content/dam/web/employer/employer-obligations/documents/CPFcontributionratesfrom1Jan2026.pdf"><span>CPF contribution rates from 1 January 2026</span><small>CPF Board</small></a>
+    <a class="source-link" target="_blank" rel="noreferrer" href="https://www.cpf.gov.sg/content/dam/web/employer/employer-obligations/documents/CPFAllocationRatesfromJanuary2026.pdf"><span>CPF allocation rates from 1 January 2026</span><small>CPF Board</small></a>
+    <a class="source-link" target="_blank" rel="noreferrer" href="https://www.cpf.gov.sg/service/article/how-much-cpf-payouts-can-i-get-every-month"><span>CPF LIFE payout examples and start ages</span><small>CPF Board</small></a>
+    <a class="source-link" target="_blank" rel="noreferrer" href="https://www.iras.gov.sg/taxes/individual-income-tax/basics-of-individual-income-tax/special-tax-schemes/tax-on-srs-withdrawals"><span>SRS withdrawal tax treatment</span><small>IRAS</small></a>
+    <a class="source-link" target="_blank" rel="noreferrer" href="https://www.mom.gov.sg/employment-practices/re-employment"><span>Retirement and re-employment ages</span><small>Ministry of Manpower</small></a>
+  </div></div>
+</section>
+
+<section id="advanced">
+  <div class="section-head"><div><h2>Advanced assumptions</h2><p>Use these controls only when you understand the effect. All return assumptions are editable planning inputs, not forecasts.</p></div><span class="pill warn" id="dirtyBadge">No unsaved changes</span></div>
+  <div class="grid two">
+    <div class="card"><h3>Portfolio assumptions</h3><label class="field"><span class="field-label">Preset allocation</span><select id="assetPreset" data-key="assetPreset"><option value="cautious">Cautious</option><option value="balanced" selected>Balanced</option><option value="growth">Growth</option><option value="retirement">Near-retirement</option><option value="custom">Custom</option></select><span class="help">Presets change weights only. Returns and volatility remain editable assumptions.</span></label><div class="table-wrap" style="margin-top:12px"><table class="input-table"><thead><tr><th>Asset class</th><th>Weight</th><th>Return</th><th>Volatility</th></tr></thead><tbody id="assetBody"></tbody></table></div><div id="weightTotal" class="callout info"></div></div>
+    <div class="card"><h3>Model settings</h3><div class="form-grid">
+      <label class="field"><span class="field-label">Investment fees</span><div class="input-wrap"><input id="fees" data-key="fees" data-number="1" data-percent="1" type="number" min="0" max="10" step="0.05" value="0.4"><span class="suffix">% / year</span></div></label>
+      <label class="field"><span class="field-label">Other annual tax drag</span><div class="input-wrap"><input id="taxDrag" data-key="taxDrag" data-number="1" data-percent="1" type="number" min="0" max="20" step="0.05" value="0"><span class="suffix">% / year</span></div><span class="help">Default 0%; foreign withholding or product-specific taxes may still apply.</span></label>
+      <label class="field"><span class="field-label">Foreign-currency exposure</span><div class="input-wrap"><input id="foreignExposure" data-key="foreignExposure" data-number="1" data-percent="1" type="number" min="0" max="100" step="1" value="50"><span class="suffix">%</span></div><span class="help">Used only in the FX stress test.</span></label>
+      <label class="field"><span class="field-label">Terminal / inheritance target</span><div class="input-wrap"><span class="suffix">S$ today</span><input id="terminalTarget" data-key="terminalTarget" data-number="1" type="number" min="0" step="1000" value="0"></div></label>
+      <label class="field"><span class="field-label">Simulation trials</span><select id="trials" data-key="trials" data-number="1"><option value="10000" selected>10,000 — standard</option><option value="50000">50,000 — slower</option><option value="100000">100,000 — slowest</option></select></label>
+      <label class="field"><span class="field-label">Random seed</span><div class="input-wrap"><input id="seed" data-key="seed" data-number="1" type="number" step="1" value="20260908"></div><span class="help">Same seed + same assumptions = same results.</span></label>
+      <div class="field"><span class="field-label">Glide path</span><label class="check-row"><input id="glidePath" data-key="glidePath" type="checkbox"> Increase defensive allocation over time</label><div class="input-wrap"><input id="defensiveAtRetirement" data-key="defensiveAtRetirement" data-number="1" data-percent="1" type="number" min="0" max="100" value="40"><span class="suffix">% at retirement</span></div><div class="input-wrap"><input id="defensiveAtEnd" data-key="defensiveAtEnd" data-number="1" data-percent="1" type="number" min="0" max="100" value="45"><span class="suffix">% at plan end</span></div></div>
+    </div></div>
+  </div>
+  <details>
+    <summary>Correlation matrix</summary>
+    <div><p class="help">Diagonal values remain 1.00. The matrix must be symmetric and positive definite.</p><div class="table-wrap"><table class="input-table"><thead id="corrHead"></thead><tbody id="corrBody"></tbody></table></div></div>
+  </details>
+  <div class="grid two" style="margin-top:16px"><div class="card"><h3>Implementation validation</h3><div id="validationSummary" class="callout info"></div><div class="table-wrap"><table><thead><tr><th>Status</th><th>Test</th><th>Expected</th><th>Actual</th></tr></thead><tbody id="validationBody"></tbody></table></div></div><div class="card"><h3>Scenario tools</h3><div class="stack"><button class="btn soft" id="duplicateBtn">Duplicate current scenario</button><button class="btn soft" id="renameBtn">Rename saved scenario</button><button class="btn soft" id="exportBtn">Export plan as JSON</button><label class="btn soft" style="text-align:center">Import plan from JSON<input id="importInput" type="file" accept="application/json,.json" class="hidden"></label><button class="btn danger" id="resetBtn">Reset all inputs</button></div><div class="callout info">Saved scenarios stay in local browser storage. Export a JSON copy before moving the HTML file to another device or browser.</div></div></div>
+</section>
+
+<section id="methodology">
+  <div class="section-head"><div><h2>How the model works</h2><p>Implementation details, timing conventions and limitations.</p></div><span class="pill">Model 2.0.0-SG</span></div>
+  <div class="grid two">
+    <div class="card"><h3>Core mechanics</h3><ul>
+      <li>Annual correlated asset-class returns are drawn from lognormal distributions using your expected arithmetic return, volatility and correlation assumptions.</li>
+      <li>The portfolio is rebalanced annually to the entered weights or optional glide path.</li>
+      <li>Contributions are approximated half before and half after each year’s return.</li>
+      <li>Retirement spending and one-off real cash flows are entered in today’s SGD and increased with inflation.</li>
+      <li>CPF LIFE and other income are entered as nominal amounts at their start age. Standard CPF LIFE is modelled as level nominal income; Escalating is modelled with 2% annual growth.</li>
+      <li>SRS is kept in a restricted bucket until the selected access and withdrawal start age, then drawn over up to ten years. The entered effective tax rate applies to 50% of each withdrawal.</li>
+      <li>Failure occurs the first time an eligible cash resource cannot fully fund a required retirement cash flow. Negative balances are not allowed.</li>
+    </ul></div>
+    <div class="card"><h3>Important limitations</h3><ul>
+      <li>The model is for education and planning, not personalised financial advice.</li>
+      <li>Lognormal returns do not fully capture market crashes, regime changes, liquidity constraints or prolonged valuation extremes.</li>
+      <li>Return, volatility and correlation assumptions are planning inputs—not estimates of what markets will deliver.</li>
+      <li>CPF legislation, retirement sums, contribution rates, interest rates and payouts can change. The Singapore reference values are dated 8 September 2026.</li>
+      <li>The CPF LIFE reference helper uses published 2026 male Standard Plan examples and is not a personal quote.</li>
+      <li>CPF account formation, housing pledges, extra interest, MediSave rules and every tax scenario are not modelled in full.</li>
+      <li>SRS early-withdrawal rules, foreigner concessions, exact progressive tax and investment-specific taxes are simplified.</li>
+      <li>Primary-home growth, lease decay, sale timing, transaction costs and replacement housing needs are not modelled beyond your entered haircut and unlock percentage.</li>
+      <li>Annual modelling is less precise than monthly cash-flow modelling for users very close to depletion.</li>
+    </ul></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>How to interpret “success”</h3><p>The success rate is the percentage of simulated paths that funded every required retirement cash flow until reaching the planning age and met any entered terminal target. It is not the probability that reality will follow the model. A plan can still fail because spending, contributions, policy rules, health needs, markets or inflation differ from the assumptions.</p><p>Review the model after major life changes and at least once a year. Replace planning defaults with your own data, especially spending, contribution capacity, CPF LIFE payout and housing assumptions.</p></div>
+</section>
+
+<div class="footer">Built for Singapore retirement-planning education. No outcome is guaranteed. Verify CPF, SRS and tax rules against current official sources before making decisions.</div>
+</main>
+</div>
+<div class="rerun hidden" id="rerunNotice">Inputs changed. Rerun to refresh the results.</div>
+<div class="toast hidden" id="toast"></div>
+<div class="modal hidden" id="compareModal"><div class="modal-card"><div class="modal-head"><h3>Saved scenario comparison</h3><button class="btn soft" id="closeCompareBtn">Close</button></div><div class="table-wrap" style="margin-top:14px"><table id="compareTable"></table></div></div></div>
+<script>
+(function(root, factory) {
+  const api = factory();
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  root.SGRetirementModel = api;
+})(typeof self !== 'undefined' ? self : globalThis, function() {
+  'use strict';
+
+  const VERSION = '2.0.0-sg';
+  const EPS = 1e-12;
+  let validationCache = null;
+  const CPF_2026 = {
+    ordinaryWageCeiling: 8000,
+    brs: 110200,
+    frs: 220400,
+    ers: 440800,
+    srsCapCitizenPr: 15300,
+    srsCapForeigner: 35700,
+    statutoryRetirementAge: 64,
+    reEmploymentAge: 69,
+    cpfLifeMinStartAge: 65,
+    cpfLifeMaxStartAge: 70
+  };
+
+  const CPF_LIFE_REFERENCE = [
+    {raAt55: 50000, payout65: 490, payout70: 670},
+    {raAt55: 110200, payout65: 950, payout70: 1280},
+    {raAt55: 150000, payout65: 1250, payout70: 1670},
+    {raAt55: 220400, payout65: 1780, payout70: 2380},
+    {raAt55: 300000, payout65: 2380, payout70: 3170},
+    {raAt55: 440800, payout65: 3440, payout70: 4580}
+  ];
+
+  function clone(obj) { return JSON.parse(JSON.stringify(obj)); }
+  function clamp(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }
+  function sum(arr) { let s = 0; for (const x of arr || []) s += Number(x) || 0; return s; }
+  function mean(arr) { return arr && arr.length ? sum(arr) / arr.length : NaN; }
+  function finite(v) { return Number.isFinite(Number(v)); }
+  function round(x, digits = 4) { const p = 10 ** digits; return Math.round((Number(x) + Number.EPSILON) * p) / p; }
+
+  function quantileSorted(sorted, q) {
+    if (!sorted.length) return NaN;
+    const pos = (sorted.length - 1) * q;
+    const base = Math.floor(pos);
+    const rest = pos - base;
+    return sorted[base + 1] !== undefined
+      ? sorted[base] + rest * (sorted[base + 1] - sorted[base])
+      : sorted[base];
+  }
+
+  function quantiles(values, probs) {
+    const a = Array.from(values || []).sort((x, y) => x - y);
+    return probs.map(q => quantileSorted(a, q));
+  }
+
+  function wilsonInterval(successes, n, z = 1.959963984540054) {
+    if (!n) return {low: NaN, high: NaN, halfWidth: NaN};
+    const p = successes / n;
+    const z2 = z * z;
+    const denom = 1 + z2 / n;
+    const center = (p + z2 / (2 * n)) / denom;
+    const half = z * Math.sqrt((p * (1 - p) + z2 / (4 * n)) / n) / denom;
+    return {low: Math.max(0, center - half), high: Math.min(1, center + half), halfWidth: half};
+  }
+
+  function makeRng(seed) {
+    let a = (Number(seed) >>> 0) || 1;
+    return function rng() {
+      a |= 0;
+      a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function makeNormal(rng) {
+    let spare = null;
+    return function normal() {
+      if (spare !== null) { const z = spare; spare = null; return z; }
+      let u = 0;
+      while (u <= Number.MIN_VALUE) u = rng();
+      const v = rng();
+      const mag = Math.sqrt(-2 * Math.log(u));
+      const angle = 2 * Math.PI * v;
+      spare = mag * Math.sin(angle);
+      return mag * Math.cos(angle);
+    };
+  }
+
+  function cholesky(matrix) {
+    const n = matrix.length;
+    const L = Array.from({length: n}, () => Array(n).fill(0));
+    for (let i = 0; i < n; i++) {
+      if (!Array.isArray(matrix[i]) || matrix[i].length !== n) throw new Error('Correlation matrix must be square.');
+      for (let j = 0; j <= i; j++) {
+        let s = 0;
+        for (let k = 0; k < j; k++) s += L[i][k] * L[j][k];
+        if (i === j) {
+          const d = Number(matrix[i][i]) - s;
+          if (d <= 1e-10) throw new Error('Correlation matrix is not positive definite.');
+          L[i][j] = Math.sqrt(d);
+        } else {
+          L[i][j] = (Number(matrix[i][j]) - s) / L[j][j];
+        }
+      }
+    }
+    return L;
+  }
+
+  function normalisedConfig(input) {
+    const c = clone(input || {});
+    c.currentAge = Number(c.currentAge);
+    c.retirementAge = Number(c.retirementAge);
+    c.planningAge = Number(c.planningAge);
+    c.liquidPortfolio = Number(c.liquidPortfolio || 0);
+    c.monthlyContribution = Number(c.monthlyContribution || 0);
+    c.contributionGrowth = Number(c.contributionGrowth || 0);
+    c.contributionEndAge = finite(c.contributionEndAge) ? Number(c.contributionEndAge) : c.retirementAge;
+    c.retirementSpendingAnnualToday = Number(c.retirementSpendingAnnualToday || 0);
+    c.inflation = Number(c.inflation || 0);
+    c.fees = Number(c.fees || 0);
+    c.taxDrag = Number(c.taxDrag || 0);
+    c.successTarget = Number(c.successTarget || 0.9);
+    c.terminalTargetReal = Number(c.terminalTargetReal || 0);
+    c.trials = Math.floor(Number(c.trials || 10000));
+    c.seed = Math.floor(Number(c.seed || 1));
+    c.foreignCurrencyExposure = Number(c.foreignCurrencyExposure || 0);
+    c.srs = Object.assign({
+      balance: 0,
+      monthlyContribution: 0,
+      contributionGrowth: c.contributionGrowth,
+      contributionEndAge: c.retirementAge,
+      accessAge: CPF_2026.statutoryRetirementAge,
+      withdrawalStartAge: CPF_2026.statutoryRetirementAge,
+      withdrawalYears: 10,
+      effectiveTaxRate: 0
+    }, c.srs || {});
+    for (const key of ['balance','monthlyContribution','contributionGrowth','contributionEndAge','accessAge','withdrawalStartAge','withdrawalYears','effectiveTaxRate']) {
+      c.srs[key] = Number(c.srs[key] || 0);
+    }
+    c.cpfLife = Array.isArray(c.cpfLife) ? c.cpfLife : [];
+    c.otherIncome = Array.isArray(c.otherIncome) ? c.otherIncome : [];
+    c.oneOffs = Array.isArray(c.oneOffs) ? c.oneOffs : [];
+    c.home = Object.assign({enabled:false, netProceedsReal:0, age:65}, c.home || {});
+    c.home.netProceedsReal = Number(c.home.netProceedsReal || 0);
+    c.home.age = Number(c.home.age || 65);
+    c.cpfLumpSum = Object.assign({enabled:false, amountReal:0, age:55}, c.cpfLumpSum || {});
+    c.cpfLumpSum.amountReal = Number(c.cpfLumpSum.amountReal || 0);
+    c.cpfLumpSum.age = Number(c.cpfLumpSum.age || 55);
+    c.flex = Object.assign({enabled:false, maxCutPct:0.15}, c.flex || {});
+    c.flex.maxCutPct = Number(c.flex.maxCutPct || 0);
+    c.glidePath = Boolean(c.glidePath);
+    c.defensiveAtRetirement = Number(c.defensiveAtRetirement || 0.4);
+    c.defensiveAtEnd = Number(c.defensiveAtEnd || c.defensiveAtRetirement || 0.4);
+    c.assetClasses = Array.isArray(c.assetClasses) ? c.assetClasses.map(a => ({
+      name: String(a.name || 'Asset class'),
+      weight: Number(a.weight || 0),
+      expectedReturn: Number(a.expectedReturn || 0),
+      volatility: Number(a.volatility || 0)
+    })) : [];
+    c.correlation = Array.isArray(c.correlation) ? c.correlation.map(r => r.map(Number)) : [];
+    return c;
+  }
+
+  function validateConfig(input) {
+    const c = normalisedConfig(input);
+    const errors = [];
+    const warnings = [];
+    if (!finite(c.currentAge) || c.currentAge < 18 || c.currentAge > 100) errors.push('Current age must be between 18 and 100.');
+    if (!finite(c.retirementAge) || c.retirementAge < c.currentAge) errors.push('Desired retirement age cannot be below current age.');
+    if (!finite(c.planningAge) || c.planningAge <= c.retirementAge || c.planningAge > 110) errors.push('Planning age must be above retirement age and no more than 110.');
+    if (finite(c.currentAge) && !Number.isInteger(c.currentAge)) errors.push('Current age must be a whole number because the model runs annually.');
+    if (finite(c.retirementAge) && !Number.isInteger(c.retirementAge)) errors.push('Desired retirement age must be a whole number because the model runs annually.');
+    if (finite(c.planningAge) && !Number.isInteger(c.planningAge)) errors.push('Planning age must be a whole number because the model runs annually.');
+    if (c.liquidPortfolio < 0) errors.push('Liquid retirement assets cannot be negative.');
+    if (c.monthlyContribution < 0) errors.push('Monthly investment contribution cannot be negative.');
+    if (c.retirementSpendingAnnualToday <= 0) errors.push('Retirement spending must be greater than zero.');
+    if (c.inflation < -0.02 || c.inflation > 0.15) errors.push('Inflation must be between -2% and 15%.');
+    if (c.fees < 0 || c.fees > 0.10) errors.push('Investment fees must be between 0% and 10%.');
+    if (c.taxDrag < 0 || c.taxDrag > 0.20) errors.push('Tax drag must be between 0% and 20%.');
+    if (c.contributionGrowth < -0.5 || c.contributionGrowth > 0.5) errors.push('Contribution growth must be between -50% and 50%.');
+    if (c.successTarget < 0.5 || c.successTarget > 0.99) errors.push('Success target must be between 50% and 99%.');
+    if (!Number.isInteger(c.trials) || c.trials < 100 || c.trials > 100000) errors.push('Trials must be an integer from 100 to 100,000.');
+    if (!Number.isInteger(c.seed)) errors.push('Random seed must be an integer.');
+    if (c.foreignCurrencyExposure < 0 || c.foreignCurrencyExposure > 1) errors.push('Foreign-currency exposure must be between 0% and 100%.');
+    if (c.flex.maxCutPct < 0 || c.flex.maxCutPct > 0.5) errors.push('Maximum flexible-spending cut must be between 0% and 50%.');
+    if (c.defensiveAtRetirement < 0 || c.defensiveAtRetirement > 1 || c.defensiveAtEnd < 0 || c.defensiveAtEnd > 1) errors.push('Glide-path defensive allocations must be between 0% and 100%.');
+    if (c.srs.balance < 0 || c.srs.monthlyContribution < 0) errors.push('SRS balance and contribution cannot be negative.');
+    if (c.srs.withdrawalStartAge < c.srs.accessAge) errors.push('SRS withdrawal start age cannot be earlier than the selected penalty-free access age.');
+    if (c.srs.withdrawalYears < 1 || c.srs.withdrawalYears > 10) errors.push('SRS withdrawal period must be between 1 and 10 years.');
+    if (c.srs.effectiveTaxRate < 0 || c.srs.effectiveTaxRate > 0.30) errors.push('SRS effective tax rate must be between 0% and 30%.');
+    if (!Array.isArray(c.assetClasses) || c.assetClasses.length < 1) errors.push('At least one asset class is required.');
+    else {
+      const ws = sum(c.assetClasses.map(a => a.weight));
+      if (Math.abs(ws - 1) > 1e-6) errors.push(`Asset allocation must total 100%; it currently totals ${(ws * 100).toFixed(2)}%.`);
+      c.assetClasses.forEach((a, i) => {
+        if (a.weight < 0 || a.weight > 1) errors.push(`Invalid weight for ${a.name || `asset ${i + 1}`}.`);
+        if (a.expectedReturn <= -1 || a.expectedReturn > 1) errors.push(`Expected return for ${a.name || `asset ${i + 1}`} must be above -100% and no more than 100%.`);
+        if (a.volatility < 0 || a.volatility > 1) errors.push(`Volatility for ${a.name || `asset ${i + 1}`} must be between 0% and 100%.`);
+      });
+      const n = c.assetClasses.length;
+      if (!Array.isArray(c.correlation) || c.correlation.length !== n) errors.push('Correlation matrix size must match the asset classes.');
+      else {
+        for (let i = 0; i < n; i++) {
+          if (!Array.isArray(c.correlation[i]) || c.correlation[i].length !== n) { errors.push('Correlation matrix must be square.'); break; }
+          for (let j = 0; j < n; j++) {
+            const x = Number(c.correlation[i][j]);
+            if (!finite(x) || x < -1 || x > 1) errors.push('All correlations must be between -1 and 1.');
+            if (Math.abs(x - Number(c.correlation[j][i])) > 1e-8) errors.push('Correlation matrix must be symmetric.');
+          }
+          if (Math.abs(Number(c.correlation[i][i]) - 1) > 1e-8) errors.push('Correlation matrix diagonal values must equal 1.');
+        }
+        if (!errors.length) {
+          try { cholesky(c.correlation); } catch (err) { errors.push(err.message); }
+        }
+      }
+    }
+    for (const stream of [...c.cpfLife, ...c.otherIncome]) {
+      if (!finite(stream.monthlyAmount) || Number(stream.monthlyAmount) < 0) errors.push(`Income amount for ${stream.name || 'an income stream'} must be non-negative.`);
+      if (!finite(stream.startAge) || Number(stream.startAge) < 18 || Number(stream.startAge) >= c.planningAge) errors.push(`Start age for ${stream.name || 'an income stream'} must be before the planning age.`);
+      if (finite(stream.startAge) && !Number.isInteger(Number(stream.startAge))) errors.push(`Start age for ${stream.name || 'an income stream'} must be a whole number.`);
+      if (finite(stream.endAge) && Number(stream.endAge) < Number(stream.startAge)) errors.push(`End age for ${stream.name || 'an income stream'} cannot be before its start age.`);
+      if (finite(stream.endAge) && !Number.isInteger(Number(stream.endAge))) errors.push(`End age for ${stream.name || 'an income stream'} must be a whole number.`);
+      if (!finite(stream.annualIncrease) || Number(stream.annualIncrease) < -0.5 || Number(stream.annualIncrease) > 0.2) errors.push(`Annual increase for ${stream.name || 'an income stream'} is outside the allowed range.`);
+    }
+    for (const f of c.oneOffs) {
+      if (!finite(f.age) || Number(f.age) < c.currentAge || Number(f.age) >= c.planningAge) errors.push(`Age for ${f.label || 'a one-off cash flow'} must be from the current age up to one year before the planning age.`);
+      if (finite(f.age) && !Number.isInteger(Number(f.age))) errors.push(`Age for ${f.label || 'a one-off cash flow'} must be a whole number.`);
+      if (!finite(f.amountReal)) errors.push(`Amount for ${f.label || 'a one-off cash flow'} must be a number.`);
+    }
+    if (c.home.enabled && (!finite(c.home.age) || c.home.age < c.currentAge || c.home.age >= c.planningAge || !Number.isInteger(c.home.age))) errors.push('Home monetisation age must be a whole number from the current age up to one year before the planning age.');
+    if (c.cpfLumpSum.enabled && (!finite(c.cpfLumpSum.age) || c.cpfLumpSum.age < c.currentAge || c.cpfLumpSum.age >= c.planningAge || !Number.isInteger(c.cpfLumpSum.age))) errors.push('CPF cash age must be a whole number from the current age up to one year before the planning age.');
+    if (c.currentAge < 55 && c.retirementAge < 55) warnings.push(`You plan to retire ${55 - c.retirementAge} year(s) before age 55; liquid assets must bridge the period before most CPF retirement access.`);
+    const firstCpf = c.cpfLife.filter(x => Number(x.monthlyAmount) > 0).map(x => Number(x.startAge));
+    if (firstCpf.length && c.retirementAge < Math.min(...firstCpf)) warnings.push(`There are ${Math.min(...firstCpf) - c.retirementAge} bridge year(s) from retirement to the first entered CPF LIFE payout.`);
+    const earlyIncome = [...c.cpfLife, ...c.otherIncome].filter(x => Number(x.monthlyAmount) > 0 && Number(x.startAge) < c.retirementAge);
+    if (earlyIncome.length) warnings.push('One or more retirement-income streams start before retirement. The accumulation phase does not automatically save that income; add any amount you expect to invest to monthly contributions.');
+    if (c.srs.balance > 0 && c.retirementAge < c.srs.withdrawalStartAge) warnings.push(`SRS is not modeled as spendable until age ${c.srs.withdrawalStartAge}.`);
+    if ((c.srs.balance > 0 || c.srs.monthlyContribution > 0) && c.srs.withdrawalStartAge >= c.planningAge) warnings.push('The entered SRS withdrawal start age is at or after the plan end, so SRS does not fund retirement spending in this run.');
+    if (c.liquidPortfolio === 0 && c.monthlyContribution === 0) warnings.push('Liquid assets and future liquid contributions are both zero.');
+    if (!c.cpfLife.some(x => Number(x.monthlyAmount) > 0)) warnings.push('No CPF LIFE payout is included. Enter an official estimate if applicable.');
+    return {config: c, errors: Array.from(new Set(errors)), warnings: Array.from(new Set(warnings))};
+  }
+
+  function weightedMoments(input, age) {
+    const c = normalisedConfig(input);
+    const weights = weightsAtAge(c, finite(age) ? Number(age) : c.currentAge);
+    let er = 0;
+    for (let i = 0; i < c.assetClasses.length; i++) er += weights[i] * c.assetClasses[i].expectedReturn;
+    let variance = 0;
+    for (let i = 0; i < c.assetClasses.length; i++) {
+      for (let j = 0; j < c.assetClasses.length; j++) {
+        variance += weights[i] * weights[j] * c.assetClasses[i].volatility * c.assetClasses[j].volatility * c.correlation[i][j];
+      }
+    }
+    const volatility = Math.sqrt(Math.max(0, variance));
+    const nominalAfterCosts = (1 + er) * (1 - c.fees) * (1 - c.taxDrag) - 1;
+    const realAfterCosts = (1 + nominalAfterCosts) / (1 + c.inflation) - 1;
+    return {expectedNominalReturn: er, volatility, nominalAfterCosts, realAfterCosts};
+  }
+
+  function weightsAtAge(c, age) {
+    const base = c.assetClasses.map(a => Number(a.weight));
+    if (!c.glidePath) return base;
+    const defensive = c.assetClasses.map((a, i) => (/cash|bond|fixed|ssb|t-bill|defensive/i.test(a.name) ? i : -1)).filter(i => i >= 0);
+    if (!defensive.length || defensive.length === base.length) return base;
+    const currentDefensive = sum(defensive.map(i => base[i]));
+    let target;
+    if (age <= c.retirementAge) {
+      const t = clamp((age - c.currentAge) / Math.max(1, c.retirementAge - c.currentAge), 0, 1);
+      target = currentDefensive + t * (c.defensiveAtRetirement - currentDefensive);
+    } else {
+      const t = clamp((age - c.retirementAge) / Math.max(1, c.planningAge - c.retirementAge), 0, 1);
+      target = c.defensiveAtRetirement + t * (c.defensiveAtEnd - c.defensiveAtRetirement);
+    }
+    target = clamp(target, 0.02, 0.98);
+    const growth = 1 - currentDefensive;
+    return base.map((w, i) => defensive.includes(i)
+      ? (currentDefensive > EPS ? w / currentDefensive * target : target / defensive.length)
+      : (growth > EPS ? w / growth * (1 - target) : 0));
+  }
+
+  function streamIncomeAtAge(stream, age) {
+    const start = Number(stream.startAge);
+    const end = finite(stream.endAge) ? Number(stream.endAge) : 120;
+    if (age < start || age > end) return 0;
+    const base = Number(stream.monthlyAmount || 0) * 12;
+    return base * (1 + Number(stream.annualIncrease || 0)) ** (age - start);
+  }
+
+  function totalIncomeAtAge(c, age) {
+    return [...c.cpfLife, ...c.otherIncome].reduce((s, stream) => s + streamIncomeAtAge(stream, age), 0);
+  }
+
+  function realCashFlowAtAge(c, age) {
+    let amount = 0;
+    for (const f of c.oneOffs) if (Number(f.age) === age) amount += Number(f.amountReal || 0);
+    if (c.home.enabled && Number(c.home.age) === age) amount += Number(c.home.netProceedsReal || 0);
+    if (c.cpfLumpSum.enabled && Number(c.cpfLumpSum.age) === age) amount += Number(c.cpfLumpSum.amountReal || 0);
+    return amount;
+  }
+
+  function createReturnGenerator(c, seed) {
+    const rng = makeRng(seed);
+    const normal = makeNormal(rng);
+    const L = cholesky(c.correlation);
+    const k = c.assetClasses.length;
+    const logMeans = c.assetClasses.map(a => Math.log(Math.max(EPS, 1 + a.expectedReturn)) - 0.5 * a.volatility * a.volatility);
+    const vols = c.assetClasses.map(a => a.volatility);
+    const z = new Array(k).fill(0);
+    const correlated = new Array(k).fill(0);
+    const returns = new Array(k).fill(0);
+    return function next(age) {
+      for (let i = 0; i < k; i++) z[i] = normal();
+      for (let i = 0; i < k; i++) {
+        let s = 0;
+        for (let j = 0; j <= i; j++) s += L[i][j] * z[j];
+        correlated[i] = s;
+        returns[i] = Math.exp(logMeans[i] + vols[i] * s) - 1;
+      }
+      const w = weightsAtAge(c, age);
+      let portfolioReturn = 0;
+      for (let i = 0; i < k; i++) portfolioReturn += w[i] * returns[i];
+      return portfolioReturn;
+    };
+  }
+
+  function applyStressToReturn(c, age, portfolioReturn, stress) {
+    let r = portfolioReturn;
+    if (stress && finite(stress.returnShift)) r = (1 + r) * (1 + Number(stress.returnShift)) - 1;
+    if (stress && finite(stress.shockAge) && Number(stress.shockAge) === age && finite(stress.forcedTotalReturn)) r = Number(stress.forcedTotalReturn);
+    return r;
+  }
+
+  function simulate(input, options = {}) {
+    const checked = validateConfig(input);
+    if (checked.errors.length) throw new Error(checked.errors.join(' '));
+    const c = checked.config;
+    const trials = Math.floor(Number(options.trials || c.trials));
+    const seed = Math.floor(Number(options.seed !== undefined ? options.seed : c.seed));
+    const stress = options.stress || null;
+    const keepPaths = options.keepPaths !== false;
+    const horizon = c.planningAge - c.currentAge;
+    const sampleN = keepPaths ? Math.min(trials, Number(options.pathSampleN || 10000)) : 0;
+    const pathStore = keepPaths ? Array.from({length: horizon + 1}, () => new Float64Array(sampleN)) : null;
+    const endingTotal = new Float64Array(trials);
+    const endingLiquid = new Float64Array(trials);
+    const retirementResources = new Float64Array(trials);
+    const depletion = new Int16Array(trials); depletion.fill(-1);
+    let successes = 0;
+    let terminalSuccesses = 0;
+    let totalFlexCutYears = 0;
+
+    const nextReturn = createReturnGenerator(c, seed);
+    for (let t = 0; t < trials; t++) {
+      let liquid = c.liquidPortfolio;
+      let srs = c.srs.balance;
+      let failed = false;
+      let failAge = -1;
+      let retirementReal = 0;
+      let spendMultiplier = 1;
+      let previousRealReturn = 0;
+      let cutYears = 0;
+      if (t < sampleN) pathStore[0][t] = liquid + srs;
+
+      for (let y = 0; y < horizon; y++) {
+        const age = c.currentAge + y;
+        const inflationFactor = (1 + c.inflation) ** y;
+
+        // Real-valued scheduled cash flows are converted to nominal at the event age.
+        let eventFlow = realCashFlowAtAge(c, age) * inflationFactor;
+        if (stress && finite(stress.expenseAge) && Number(stress.expenseAge) === age) eventFlow -= Number(stress.expenseReal || 0) * inflationFactor;
+        const eventInflow = Math.max(0, eventFlow);
+        const eventOutflow = Math.max(0, -eventFlow);
+        liquid += eventInflow;
+
+        // SRS is kept as a separate restricted bucket and released over the selected period.
+        if (srs > 0 && age >= c.srs.withdrawalStartAge && age < c.srs.withdrawalStartAge + c.srs.withdrawalYears) {
+          const yearsRemaining = c.srs.withdrawalStartAge + c.srs.withdrawalYears - age;
+          const gross = srs / Math.max(1, yearsRemaining);
+          const tax = gross * 0.5 * c.srs.effectiveTaxRate;
+          srs -= gross;
+          liquid += Math.max(0, gross - tax);
+        }
+
+        if (age >= c.retirementAge) {
+          if (age === c.retirementAge) retirementReal = (liquid + srs) / inflationFactor;
+          if (c.flex.enabled && age > c.retirementAge) {
+            const realResources = (liquid + srs) / inflationFactor;
+            if (previousRealReturn < 0 && realResources < retirementReal) {
+              const floor = 1 - clamp(c.flex.maxCutPct, 0, 0.5);
+              const next = Math.max(floor, spendMultiplier - 0.05);
+              if (next < spendMultiplier - EPS) cutYears++;
+              spendMultiplier = next;
+            } else if (realResources > retirementReal * 1.1) {
+              spendMultiplier = Math.min(1, spendMultiplier + 0.025);
+            }
+          }
+          const spending = c.retirementSpendingAnnualToday * inflationFactor * spendMultiplier;
+          const income = totalIncomeAtAge(c, age);
+          const netNeed = spending + eventOutflow - income;
+          if (netNeed > liquid && !failed) {
+            failed = true; failAge = age; liquid = 0;
+          } else if (netNeed >= 0) {
+            liquid -= netNeed;
+          } else {
+            liquid += -netNeed;
+          }
+        } else if (eventOutflow > 0) {
+          if (eventOutflow > liquid && !failed) {
+            failed = true; failAge = age; liquid = 0;
+          } else {
+            liquid -= eventOutflow;
+          }
+        }
+
+        const rawReturn = nextReturn(age);
+        const portfolioReturn = applyStressToReturn(c, age, rawReturn, stress);
+        if (stress && finite(stress.fxShock) && finite(stress.fxShockAge) && Number(stress.fxShockAge) === age) {
+          const fxFactor = Math.max(0, 1 + c.foreignCurrencyExposure * Number(stress.fxShock));
+          liquid *= fxFactor;
+          srs *= fxFactor;
+        }
+        const growthFactor = Math.max(0, 1 + portfolioReturn) * Math.max(0, 1 - c.fees) * Math.max(0, 1 - c.taxDrag);
+
+        const contributing = age < c.contributionEndAge && age < c.retirementAge;
+        const liquidContribution = contributing
+          ? c.monthlyContribution * 12 * (1 + c.contributionGrowth) ** y
+          : 0;
+        const srsContributing = age < c.srs.contributionEndAge && age < c.retirementAge;
+        const srsContribution = srsContributing
+          ? c.srs.monthlyContribution * 12 * (1 + c.srs.contributionGrowth) ** y
+          : 0;
+
+        liquid = (liquid + liquidContribution / 2) * growthFactor + liquidContribution / 2;
+        srs = (srs + srsContribution / 2) * growthFactor + srsContribution / 2;
+        previousRealReturn = growthFactor / (1 + c.inflation) - 1;
+
+        if (!Number.isFinite(liquid) || liquid < 0) { if (!failed) { failed = true; failAge = age; } liquid = 0; }
+        if (!Number.isFinite(srs) || srs < 0) srs = 0;
+        if (t < sampleN) pathStore[y + 1][t] = (liquid + srs) / ((1 + c.inflation) ** (y + 1));
+      }
+
+      const finalInflation = (1 + c.inflation) ** horizon;
+      const finalTotalReal = (liquid + srs) / finalInflation;
+      endingTotal[t] = finalTotalReal;
+      endingLiquid[t] = liquid / finalInflation;
+      retirementResources[t] = retirementReal;
+      depletion[t] = failAge;
+      totalFlexCutYears += cutYears;
+      if (!failed) successes++;
+      if (!failed && finalTotalReal >= c.terminalTargetReal) terminalSuccesses++;
+    }
+
+    const probs = [0.05,0.10,0.25,0.50,0.75,0.90,0.95];
+    const totalQs = quantiles(endingTotal, probs);
+    const liquidQs = quantiles(endingLiquid, probs);
+    const failedAges = Array.from(depletion).filter(x => x >= 0).sort((a,b) => a-b);
+    const depletionByAge = [];
+    for (let age = c.retirementAge; age <= c.planningAge; age++) {
+      let count = 0;
+      for (let i = 0; i < trials; i++) if (depletion[i] >= 0 && depletion[i] <= age) count++;
+      depletionByAge.push({age, probability: count / trials});
+    }
+    let pathPercentiles = null;
+    if (keepPaths) {
+      pathPercentiles = [];
+      for (let y = 0; y <= horizon; y++) {
+        const q = quantiles(pathStore[y], probs);
+        pathPercentiles.push({age: c.currentAge + y, p5:q[0], p10:q[1], p25:q[2], p50:q[3], p75:q[4], p90:q[5], p95:q[6]});
+      }
+    }
+    const ci = wilsonInterval(successes, trials);
+    return {
+      modelVersion: VERSION,
+      trials,
+      seed,
+      successRate: successes / trials,
+      successes,
+      confidence95: ci,
+      terminalSuccessRate: terminalSuccesses / trials,
+      endingPercentiles: {p5:totalQs[0], p10:totalQs[1], p25:totalQs[2], p50:totalQs[3], p75:totalQs[4], p90:totalQs[5], p95:totalQs[6]},
+      endingLiquidPercentiles: {p5:liquidQs[0], p10:liquidQs[1], p25:liquidQs[2], p50:liquidQs[3], p75:liquidQs[4], p90:liquidQs[5], p95:liquidQs[6]},
+      medianRetirementResourcesReal: quantiles(retirementResources, [0.5])[0],
+      medianDepletionAge: failedAges.length ? quantileSorted(failedAges, 0.5) : null,
+      depletionByAge,
+      pathPercentiles,
+      pathSampleN: sampleN,
+      meanFlexibleCutYears: totalFlexCutYears / trials,
+      warnings: checked.warnings
+    };
+  }
+
+  function deterministicProjection(input, overrides = {}) {
+    const checked = validateConfig(Object.assign({}, clone(input), overrides));
+    if (checked.errors.length) throw new Error(checked.errors.join(' '));
+    const c = checked.config;
+    const annualReturn = overrides.annualReturn !== undefined ? Number(overrides.annualReturn) : weightedMoments(c).expectedNominalReturn;
+    let liquid = c.liquidPortfolio;
+    let srs = c.srs.balance;
+    const rows = [{age:c.currentAge, liquidNominal:liquid, srsNominal:srs, totalReal:liquid+srs}];
+    for (let y = 0; y < c.planningAge - c.currentAge; y++) {
+      const age = c.currentAge + y;
+      const infl = (1 + c.inflation) ** y;
+      const eventFlow = realCashFlowAtAge(c, age) * infl;
+      const eventInflow = Math.max(0, eventFlow);
+      const eventOutflow = Math.max(0, -eventFlow);
+      liquid += eventInflow;
+      if (srs > 0 && age >= c.srs.withdrawalStartAge && age < c.srs.withdrawalStartAge + c.srs.withdrawalYears) {
+        const yearsRemaining = c.srs.withdrawalStartAge + c.srs.withdrawalYears - age;
+        const gross = srs / Math.max(1, yearsRemaining);
+        const tax = gross * 0.5 * c.srs.effectiveTaxRate;
+        srs -= gross;
+        liquid += gross - tax;
+      }
+      if (age >= c.retirementAge) {
+        const need = c.retirementSpendingAnnualToday * infl + eventOutflow - totalIncomeAtAge(c, age);
+        liquid = Math.max(0, liquid - need);
+      } else {
+        liquid = Math.max(0, liquid - eventOutflow);
+      }
+      const lc = age < c.contributionEndAge && age < c.retirementAge ? c.monthlyContribution * 12 * (1 + c.contributionGrowth) ** y : 0;
+      const sc = age < c.srs.contributionEndAge && age < c.retirementAge ? c.srs.monthlyContribution * 12 * (1 + c.srs.contributionGrowth) ** y : 0;
+      const factor = Math.max(0, 1 + annualReturn) * (1 - c.fees) * (1 - c.taxDrag);
+      liquid = (liquid + lc / 2) * factor + lc / 2;
+      srs = (srs + sc / 2) * factor + sc / 2;
+      rows.push({age:age+1, liquidNominal:liquid, srsNominal:srs, totalReal:(liquid+srs)/((1+c.inflation)**(y+1))});
+    }
+    return rows;
+  }
+
+  function quickSuccess(c, changes = {}, trials = 700, seedOffset = 0, stress = null) {
+    const x = clone(c);
+    Object.assign(x, changes);
+    if (changes.retirementAge !== undefined) {
+      x.contributionEndAge = Number(changes.retirementAge);
+      if (x.srs) x.srs.contributionEndAge = Number(changes.retirementAge);
+    }
+    x.trials = trials;
+    return simulate(x, {trials, seed:(Number(c.seed) + seedOffset) >>> 0, keepPaths:false, stress}).successRate;
+  }
+
+  function ageSweep(c, trials = 700) {
+    const start = c.currentAge;
+    const end = c.planningAge - 1;
+    const rows = [];
+    let monotonic = 0;
+    for (let age = start; age <= end; age++) {
+      const raw = quickSuccess(c, {retirementAge:age}, trials, 101);
+      monotonic = Math.max(monotonic, raw);
+      rows.push({age, rawSuccessRate:raw, successRate:monotonic});
+    }
+    return rows;
+  }
+
+  function spendingSweep(c, trials = 700) {
+    return [0.6,0.75,0.9,1,1.1,1.25,1.4].map((m, i) => ({
+      monthlySpending:c.retirementSpendingAnnualToday / 12 * m,
+      successRate:quickSuccess(c, {retirementSpendingAnnualToday:c.retirementSpendingAnnualToday*m}, trials, 201+i)
+    }));
+  }
+
+  function contributionSweep(c, trials = 700) {
+    const base = c.monthlyContribution > 0 ? c.monthlyContribution : 1000;
+    return [0,0.5,0.75,1,1.25,1.5,2].map((m, i) => ({
+      monthlyContribution:m === 0 ? 0 : base*m,
+      successRate:quickSuccess(c, {monthlyContribution:m === 0 ? 0 : base*m}, trials, 301+i)
+    }));
+  }
+
+  function earliestAgeForTarget(ageRows, target) {
+    const row = ageRows.find(r => r.successRate >= target);
+    return row ? row.age : null;
+  }
+
+  function requiredMonthlyContribution(c, target = c.successTarget, trials = 800) {
+    if (quickSuccess(c, {}, trials, 401) >= target) return 0;
+    let lo = 0;
+    let hi = Math.max(1000, c.monthlyContribution * 2, 2000);
+    while (hi < 100000 && quickSuccess(c, {monthlyContribution:hi}, trials, 401) < target) hi *= 1.6;
+    if (hi >= 100000 && quickSuccess(c, {monthlyContribution:hi}, trials, 401) < target) return null;
+    for (let i = 0; i < 11; i++) {
+      const mid = (lo + hi) / 2;
+      if (quickSuccess(c, {monthlyContribution:mid}, trials, 401) >= target) hi = mid; else lo = mid;
+    }
+    return hi;
+  }
+
+  function maximumMonthlySpending(c, target = c.successTarget, trials = 800) {
+    let lo = 0;
+    let hi = Math.max(2000, c.retirementSpendingAnnualToday / 12 * 1.5);
+    while (hi < 100000 && quickSuccess(c, {retirementSpendingAnnualToday:hi*12}, trials, 501) >= target) hi *= 1.5;
+    for (let i = 0; i < 11; i++) {
+      const mid = (lo + hi) / 2;
+      if (quickSuccess(c, {retirementSpendingAnnualToday:mid*12}, trials, 501) >= target) lo = mid; else hi = mid;
+    }
+    return lo;
+  }
+
+  function fiScreen(c) {
+    const assets = c.liquidPortfolio + c.srs.balance;
+    const annual = c.retirementSpendingAnnualToday;
+    const monthly = c.monthlyContribution + c.srs.monthlyContribution;
+    const rates = [0.03,0.035,0.04];
+    const realReturns = [{name:'Conservative',value:0.02},{name:'Base',value:0.04},{name:'Optimistic',value:0.055}];
+    function years(target, realReturn) {
+      let bal = assets;
+      let cont = monthly * 12;
+      if (bal >= target) return 0;
+      for (let y=1; y<=80; y++) {
+        bal = (bal + cont/2) * (1 + realReturn) + cont/2;
+        cont *= (1 + c.contributionGrowth) / (1 + c.inflation);
+        if (bal >= target) return y;
+      }
+      return null;
+    }
+    return rates.map(rate => {
+      const target = annual / rate;
+      return {
+        rate,
+        target,
+        gap:Math.max(0, target-assets),
+        progress:target > 0 ? assets/target : 1,
+        supportedAnnual:assets*rate,
+        years:Object.fromEntries(realReturns.map(r => [r.name, years(target, r.value)]))
+      };
+    });
+  }
+
+  function sensitivityAnalysis(c, trials = 600) {
+    const seedOffset = 901;
+    const baseline = quickSuccess(c, {}, trials, seedOffset);
+    const rows = [];
+    const add = (name, lowLabel, highLabel, lowChanges, highChanges) => {
+      const low = quickSuccess(c, lowChanges, trials, seedOffset);
+      const high = quickSuccess(c, highChanges, trials, seedOffset);
+      rows.push({name, lowLabel, highLabel, low, high, baseline, impact:Math.max(Math.abs(low-baseline),Math.abs(high-baseline),Math.abs(high-low))});
+    };
+    add('Retirement spending','−10%','+10%',
+      {retirementSpendingAnnualToday:c.retirementSpendingAnnualToday*0.90},
+      {retirementSpendingAnnualToday:c.retirementSpendingAnnualToday*1.10});
+    const earlyAge = Math.max(c.currentAge, c.retirementAge-3);
+    const lateAge = Math.min(c.planningAge-1, c.retirementAge+3);
+    add('Retirement age',`Age ${earlyAge}`,`Age ${lateAge}`,
+      {retirementAge:earlyAge},{retirementAge:lateAge});
+    const lowContribution = c.monthlyContribution>0 ? c.monthlyContribution*0.80 : 0;
+    const highContribution = c.monthlyContribution>0 ? c.monthlyContribution*1.20 : 1000;
+    add('Monthly liquid investment',`S$${Math.round(lowContribution).toLocaleString('en-SG')}`,`S$${Math.round(highContribution).toLocaleString('en-SG')}`,
+      {monthlyContribution:lowContribution},{monthlyContribution:highContribution});
+    add('Expected asset returns','−1 pp','+1 pp',
+      {assetClasses:c.assetClasses.map(a=>Object.assign({},a,{expectedReturn:Math.max(-0.05,a.expectedReturn-0.01)}))},
+      {assetClasses:c.assetClasses.map(a=>Object.assign({},a,{expectedReturn:Math.min(1,a.expectedReturn+0.01)}))});
+    add('Inflation','−1 pp','+1 pp',
+      {inflation:Math.max(-0.02,c.inflation-0.01)},
+      {inflation:Math.min(0.15,c.inflation+0.01)});
+    add('Investment fees','−0.5 pp','+0.5 pp',
+      {fees:Math.max(0,c.fees-0.005)},
+      {fees:Math.min(0.10,c.fees+0.005)});
+    if ([...c.cpfLife,...c.otherIncome].some(x=>Number(x.monthlyAmount)>0)) {
+      add('CPF LIFE and other retirement income','−20%','+20%',
+        {cpfLife:c.cpfLife.map(x=>Object.assign({},x,{monthlyAmount:x.monthlyAmount*0.80})),otherIncome:c.otherIncome.map(x=>Object.assign({},x,{monthlyAmount:x.monthlyAmount*0.80}))},
+        {cpfLife:c.cpfLife.map(x=>Object.assign({},x,{monthlyAmount:x.monthlyAmount*1.20})),otherIncome:c.otherIncome.map(x=>Object.assign({},x,{monthlyAmount:x.monthlyAmount*1.20}))});
+    }
+    rows.sort((a,b)=>b.impact-a.impact);
+    return {baseline, trials, rows};
+  }
+
+  function retirementHeatmap(c, trials = 350) {
+    const ages = Array.from(new Set([-4,-2,0,2,4]
+      .map(d=>Math.max(c.currentAge,Math.min(c.planningAge-1,c.retirementAge+d)))))
+      .sort((a,b)=>a-b);
+    const multipliers = [0.80,0.90,1.00,1.10,1.20];
+    const rows = multipliers.map(m=>({
+      multiplier:m,
+      monthlySpending:c.retirementSpendingAnnualToday/12*m,
+      values:ages.map(age=>quickSuccess(c,{retirementAge:age,retirementSpendingAnnualToday:c.retirementSpendingAnnualToday*m},trials,1001))
+    }));
+    return {ages, rows, trials};
+  }
+
+
+  function stressTests(c, trials = 1200) {
+    const largestGrowthWeight = Math.max(0, ...c.assetClasses
+      .filter(a => !/cash|bond|fixed|ssb|t-bill|defensive/i.test(a.name))
+      .map(a => Number(a.weight || 0)));
+    const scenarios = [
+      {name:'30% fall just before retirement', changes:{}, stress:{shockAge:Math.max(c.currentAge,c.retirementAge-1),forcedTotalReturn:-0.30}},
+      {name:'30% fall in first retirement year', changes:{}, stress:{shockAge:c.retirementAge,forcedTotalReturn:-0.30}},
+      {name:'Returns 2 percentage points lower', changes:{assetClasses:c.assetClasses.map(a=>Object.assign({},a,{expectedReturn:Math.max(-0.05,a.expectedReturn-0.02)}))}},
+      {name:'Inflation 2 percentage points higher', changes:{inflation:Math.min(0.15,c.inflation+0.02)}},
+      {name:'Fees 1 percentage point higher', changes:{fees:Math.min(0.10,c.fees+0.01)}},
+      {name:'Contributions 30% lower', changes:{monthlyContribution:c.monthlyContribution*0.70,srs:Object.assign({},c.srs,{monthlyContribution:c.srs.monthlyContribution*0.70})}},
+      {name:'Plan lasts 10 years longer', changes:{planningAge:Math.min(110,c.planningAge+10)}},
+      {name:'S$100,000 unexpected expense', changes:{}, stress:{expenseAge:Math.min(c.planningAge-1,c.retirementAge+2),expenseReal:100000}},
+      {name:'20% foreign-currency shock', changes:{}, stress:{fxShockAge:c.retirementAge,fxShock:-0.20}},
+      ...(largestGrowthWeight>0 ? [{name:'Largest growth sleeve falls 50% (approximation)',changes:{},stress:{shockAge:c.retirementAge,forcedTotalReturn:-0.50*largestGrowthWeight}}] : []),
+      ...(([...c.cpfLife,...c.otherIncome].some(x=>Number(x.monthlyAmount)>0)) ? [
+        {name:'Retirement income 20% lower',changes:{cpfLife:c.cpfLife.map(x=>Object.assign({},x,{monthlyAmount:x.monthlyAmount*0.80})),otherIncome:c.otherIncome.map(x=>Object.assign({},x,{monthlyAmount:x.monthlyAmount*0.80}))}},
+        {name:'Retirement income starts 2 years later',changes:{cpfLife:c.cpfLife.map(x=>Object.assign({},x,{startAge:Math.min(c.planningAge-1,x.startAge+2)})),otherIncome:c.otherIncome.map(x=>Object.assign({},x,{startAge:Math.min(c.planningAge-1,x.startAge+2)}))}}
+      ] : []),
+      {name:'Combined adverse scenario', changes:{
+        inflation:Math.min(0.15,c.inflation+0.015),
+        assetClasses:c.assetClasses.map(a=>Object.assign({},a,{expectedReturn:Math.max(-0.05,a.expectedReturn-0.015)})),
+        monthlyContribution:c.monthlyContribution*0.80,
+        srs:Object.assign({},c.srs,{monthlyContribution:c.srs.monthlyContribution*0.80}),
+        planningAge:Math.min(110,c.planningAge+5)
+      }, stress:{shockAge:c.retirementAge,forcedTotalReturn:-0.25,expenseAge:Math.min(c.planningAge-1,c.retirementAge+3),expenseReal:50000}}
+    ];
+    const commonSeed = (c.seed + 700) >>> 0;
+    return scenarios.map(s => {
+      const x = clone(c);
+      Object.assign(x, s.changes);
+      const r = simulate(x, {trials, seed:commonSeed, keepPaths:false, stress:s.stress});
+      return {name:s.name, successRate:r.successRate, medianEnding:r.endingPercentiles.p50, p10Ending:r.endingPercentiles.p10, medianDepletionAge:r.medianDepletionAge};
+    });
+  }
+
+  function cpfRateBand(age) {
+    if (age <= 55) return {total:0.37, employer:0.17, employee:0.20, phase:0.60};
+    if (age <= 60) return {total:0.34, employer:0.16, employee:0.18, phase:0.54};
+    if (age <= 65) return {total:0.25, employer:0.125, employee:0.125, phase:0.375};
+    if (age <= 70) return {total:0.165, employer:0.09, employee:0.075, phase:0.225};
+    return {total:0.125, employer:0.075, employee:0.05, phase:0.15};
+  }
+
+  function cpfAllocationBand(age) {
+    if (age <= 35) return {oa:0.6217, sara:0.1621, ma:0.2162};
+    if (age <= 45) return {oa:0.5677, sara:0.1891, ma:0.2432};
+    if (age <= 50) return {oa:0.5136, sara:0.2162, ma:0.2702};
+    if (age <= 55) return {oa:0.4055, sara:0.3108, ma:0.2837};
+    if (age <= 60) return {oa:0.3530, sara:0.3382, ma:0.3088};
+    if (age <= 65) return {oa:0.1400, sara:0.4400, ma:0.4200};
+    if (age <= 70) return {oa:0.0607, sara:0.3030, ma:0.6363};
+    return {oa:0.0800, sara:0.0800, ma:0.8400};
+  }
+
+  function cpfContribution2026(monthlyOrdinaryWage, age) {
+    const ow = clamp(Number(monthlyOrdinaryWage || 0), 0, CPF_2026.ordinaryWageCeiling);
+    const rate = cpfRateBand(Number(age));
+    let total = 0;
+    let employee = 0;
+    if (ow <= 50) {
+      total = 0; employee = 0;
+    } else if (ow <= 500) {
+      total = rate.employer * ow; employee = 0;
+    } else if (ow <= 750) {
+      total = rate.employer * ow + rate.phase * (ow - 500);
+      employee = rate.phase * (ow - 500);
+    } else {
+      total = rate.total * ow;
+      employee = rate.employee * ow;
+    }
+    total = Math.round(total);
+    employee = Math.floor(employee);
+    const employer = Math.max(0, total - employee);
+    const alloc = cpfAllocationBand(Number(age));
+    const ma = Math.round(total * alloc.ma * 100) / 100;
+    const sara = Math.round(total * alloc.sara * 100) / 100;
+    const oa = Math.max(0, Math.round((total - ma - sara) * 100) / 100);
+    return {ordinaryWage:ow, total, employee, employer, oa, sara, ma, rates:rate, allocation:alloc};
+  }
+
+  function interpolateReference(raAt55, key) {
+    const x = Number(raAt55 || 0);
+    if (x <= 0) return 0;
+    const pts = CPF_LIFE_REFERENCE;
+    if (x <= pts[0].raAt55) return pts[0][key] * x / pts[0].raAt55;
+    for (let i=1; i<pts.length; i++) {
+      if (x <= pts[i].raAt55) {
+        const a = pts[i-1], b = pts[i];
+        const t = (x-a.raAt55)/(b.raAt55-a.raAt55);
+        return a[key] + t*(b[key]-a[key]);
+      }
+    }
+    const a = pts[pts.length-2], b = pts[pts.length-1];
+    const slope = (b[key]-a[key])/(b.raAt55-a.raAt55);
+    return b[key] + slope*(x-b.raAt55);
+  }
+
+  function cpfLifeReferencePayout(raAt55, startAge = 65) {
+    const age = clamp(Number(startAge || 65), 65, 70);
+    const p65 = interpolateReference(raAt55, 'payout65');
+    const p70 = interpolateReference(raAt55, 'payout70');
+    const monthly = p65 + (p70-p65) * ((age-65)/5);
+    return {
+      monthly:Math.max(0, monthly),
+      startAge:age,
+      cappedReference:Math.min(Number(raAt55 || 0), CPF_2026.ers),
+      note:'Rough interpolation from CPF Board 2026 male Standard Plan examples; use the official CPF estimator for a personal amount.'
+    };
+  }
+
+  function srsAnnualCap(residency) {
+    return String(residency || '').toLowerCase().includes('foreign') ? CPF_2026.srsCapForeigner : CPF_2026.srsCapCitizenPr;
+  }
+
+  function runValidation() {
+    if (validationCache) return clone(validationCache);
+    const tests = [];
+    function add(name, expected, actual, pass, note='') { tests.push({name, expected, actual, pass:Boolean(pass), note}); }
+    const base = {
+      currentAge:40, retirementAge:45, planningAge:50, liquidPortfolio:100000,
+      monthlyContribution:1000, contributionGrowth:0, contributionEndAge:45,
+      retirementSpendingAnnualToday:20000, inflation:0, fees:0, taxDrag:0,
+      successTarget:0.9, terminalTargetReal:0, trials:500, seed:12345,
+      foreignCurrencyExposure:0,
+      srs:{balance:0,monthlyContribution:0,contributionGrowth:0,contributionEndAge:45,accessAge:64,withdrawalStartAge:64,withdrawalYears:10,effectiveTaxRate:0},
+      cpfLife:[],otherIncome:[],oneOffs:[],home:{enabled:false,netProceedsReal:0,age:65},cpfLumpSum:{enabled:false,amountReal:0,age:55},
+      flex:{enabled:false,maxCutPct:0.15},glidePath:false,defensiveAtRetirement:0.4,defensiveAtEnd:0.4,
+      assetClasses:[{name:'Test asset',weight:1,expectedReturn:0.05,volatility:0}],correlation:[[1]]
+    };
+    const v = validateConfig(base);
+    add('Valid baseline','No errors',v.errors.join('; ') || 'No errors',v.errors.length===0);
+    add('Allocation check','100.00%',`${(sum(base.assetClasses.map(a=>a.weight))*100).toFixed(2)}%`,Math.abs(sum(base.assetClasses.map(a=>a.weight))-1)<1e-9);
+    try { cholesky(base.correlation); add('Correlation check','Positive definite','Positive definite',true); } catch(e) { add('Correlation check','Positive definite',e.message,false); }
+    const det = deterministicProjection(base);
+    const mc = simulate(base,{trials:500,seed:12345,keepPaths:false});
+    const detEnd = det[det.length-1].totalReal;
+    add('Zero-volatility cross-check','Monte Carlo equals deterministic',`${mc.endingPercentiles.p50.toFixed(2)} vs ${detEnd.toFixed(2)}`,Math.abs(mc.endingPercentiles.p50-detEnd)<0.01);
+    const zero = clone(base); zero.currentAge=40;zero.retirementAge=40;zero.planningAge=42;zero.liquidPortfolio=21000;zero.monthlyContribution=0;zero.retirementSpendingAnnualToday=10000;zero.assetClasses[0].expectedReturn=0;zero.inflation=0.10;
+    const zr=simulate(zero,{trials:200,seed:1,keepPaths:false});
+    add('Inflation applied once','S$10k then S$11k uses S$21k exactly',zr.endingPercentiles.p50.toFixed(2),Math.abs(zr.endingPercentiles.p50)<0.01 && zr.successRate===1);
+    const nw=clone(base);nw.retirementSpendingAnnualToday=0.01;
+    const nwr=simulate(nw,{trials:200,seed:2,keepPaths:false});
+    add('Near-zero withdrawal','All paths funded',`${(nwr.successRate*100).toFixed(1)}%`,nwr.successRate===1);
+    const r1=simulate(base,{trials:500,seed:777,keepPaths:false});
+    const r2=simulate(base,{trials:500,seed:777,keepPaths:false});
+    add('Fixed-seed reproducibility','Identical outputs',`${r1.successRate.toFixed(6)} / ${r2.successRate.toFixed(6)}`,r1.successRate===r2.successRate && r1.endingPercentiles.p50===r2.endingPercentiles.p50);
+    const bad=clone(base);bad.retirementAge=39;
+    add('Invalid age prevention','Rejected',validateConfig(bad).errors[0] || 'Not rejected',validateConfig(bad).errors.length>0);
+    const locked=clone(base);locked.currentAge=50;locked.retirementAge=50;locked.planningAge=60;locked.liquidPortfolio=0;locked.monthlyContribution=0;locked.retirementSpendingAnnualToday=10000;locked.assetClasses[0].expectedReturn=0;locked.srs={balance:100000,monthlyContribution:0,contributionGrowth:0,contributionEndAge:50,accessAge:60,withdrawalStartAge:60,withdrawalYears:1,effectiveTaxRate:0};
+    const lr=simulate(locked,{trials:200,seed:3,keepPaths:false});
+    add('Restricted SRS bridge','Fails before access','Failure at age 50',lr.successRate===0 && lr.medianDepletionAge===50);
+    const cpf=clone(base);cpf.currentAge=65;cpf.retirementAge=65;cpf.planningAge=66;cpf.liquidPortfolio=0;cpf.monthlyContribution=0;cpf.retirementSpendingAnnualToday=12000;cpf.assetClasses[0].expectedReturn=0;cpf.cpfLife=[{name:'CPF LIFE',monthlyAmount:1000,startAge:65,endAge:110,annualIncrease:0}];
+    const cr=simulate(cpf,{trials:200,seed:4,keepPaths:false});
+    add('CPF LIFE income offset','Full spending funded',`${(cr.successRate*100).toFixed(1)}%`,cr.successRate===1);
+
+    const noContrib=clone(base);noContrib.monthlyContribution=0;
+    const ncMc=simulate(noContrib,{trials:200,seed:5,keepPaths:false});
+    const ncDet=deterministicProjection(noContrib).at(-1).totalReal;
+    add('No-contribution cross-check','Monte Carlo equals deterministic',`${ncMc.endingPercentiles.p50.toFixed(2)} vs ${ncDet.toFixed(2)}`,Math.abs(ncMc.endingPercentiles.p50-ncDet)<0.01);
+
+    const immediate=clone(base);immediate.currentAge=40;immediate.retirementAge=40;immediate.planningAge=45;immediate.liquidPortfolio=50000;immediate.monthlyContribution=0;immediate.retirementSpendingAnnualToday=10000;immediate.assetClasses[0].expectedReturn=0;
+    const ir=simulate(immediate,{trials:200,seed:6,keepPaths:false});
+    add('Immediate retirement','Five annual withdrawals funded','100.0% with S$0 ending',ir.successRate===1&&Math.abs(ir.endingPercentiles.p50)<0.01);
+
+    const oneYear=clone(immediate);oneYear.planningAge=41;oneYear.liquidPortfolio=10000;
+    const oy=simulate(oneYear,{trials:200,seed:7,keepPaths:false});
+    add('One-year horizon','One S$10k withdrawal funded','100.0% with S$0 ending',oy.successRate===1&&Math.abs(oy.endingPercentiles.p50)<0.01);
+
+    const srsTax=clone(base);srsTax.currentAge=64;srsTax.retirementAge=64;srsTax.planningAge=65;srsTax.liquidPortfolio=0;srsTax.monthlyContribution=0;srsTax.retirementSpendingAnnualToday=9500;srsTax.assetClasses[0].expectedReturn=0;srsTax.srs={balance:10000,monthlyContribution:0,contributionGrowth:0,contributionEndAge:64,accessAge:64,withdrawalStartAge:64,withdrawalYears:1,effectiveTaxRate:0.10};
+    const sr=simulate(srsTax,{trials:200,seed:8,keepPaths:false});
+    add('SRS taxable-half treatment','S$10k less S$500 tax funds S$9.5k','100.0% with S$0 ending',sr.successRate===1&&Math.abs(sr.endingPercentiles.p50)<0.01);
+
+    const badAlloc=clone(base);badAlloc.assetClasses[0].weight=0.9;
+    add('Invalid allocation prevention','Rejected',validateConfig(badAlloc).errors.join('; '),validateConfig(badAlloc).errors.some(e=>/total 100%/i.test(e)));
+
+    const glide=clone(base);glide.glidePath=true;glide.assetClasses=[{name:'Cash',weight:0.2,expectedReturn:0.02,volatility:0.01},{name:'Equities',weight:0.8,expectedReturn:0.06,volatility:0.18}];glide.correlation=[[1,0],[0,1]];glide.defensiveAtRetirement=0.5;glide.defensiveAtEnd=0.7;
+    const g1=sum(weightsAtAge(glide,glide.retirementAge)),g2=sum(weightsAtAge(glide,glide.planningAge));
+    add('Glide-path weights','100% at retirement and plan end',`${(g1*100).toFixed(2)}% / ${(g2*100).toFixed(2)}%`,Math.abs(g1-1)<1e-9&&Math.abs(g2-1)<1e-9);
+
+    const conv=clone(base);conv.retirementAge=45;conv.planningAge=60;conv.liquidPortfolio=100000;conv.monthlyContribution=500;conv.retirementSpendingAnnualToday=12000;conv.inflation=0.02;conv.fees=0.002;conv.assetClasses[0].expectedReturn=0.04;conv.assetClasses[0].volatility=0.15;
+    const c10=simulate(conv,{trials:10000,seed:987,keepPaths:false});
+    const c50=simulate(conv,{trials:50000,seed:987,keepPaths:false});
+    const c100=simulate(conv,{trials:100000,seed:987,keepPaths:false});
+    add('Trial-count convergence','10k, 50k and 100k within 2 percentage points',`${(c10.successRate*100).toFixed(2)}% / ${(c50.successRate*100).toFixed(2)}% / ${(c100.successRate*100).toFixed(2)}%`,Math.max(c10.successRate,c50.successRate,c100.successRate)-Math.min(c10.successRate,c50.successRate,c100.successRate)<0.02);
+    const seeds=[11,22,33].map(seed=>simulate(conv,{trials:10000,seed,keepPaths:false}).successRate);
+    add('Multiple-seed stability','10k-trial estimates within 5 percentage points',seeds.map(x=>(x*100).toFixed(2)+'%').join(' / '),Math.max(...seeds)-Math.min(...seeds)<0.05);
+    add('Sampling interval','Point estimate lies inside Wilson 95% interval',`${(c10.confidence95.low*100).toFixed(2)}% ≤ ${(c10.successRate*100).toFixed(2)}% ≤ ${(c10.confidence95.high*100).toFixed(2)}%`,c10.confidence95.low<=c10.successRate&&c10.successRate<=c10.confidence95.high);
+
+    const highContrib=clone(conv);highContrib.monthlyContribution=3000;
+    const hc=simulate(highContrib,{trials:10000,seed:987,keepPaths:false});
+    add('Contribution direction','Higher contribution does not reduce success',`${(c10.successRate*100).toFixed(2)}% → ${(hc.successRate*100).toFixed(2)}%`,hc.successRate>=c10.successRate);
+    const highSpend=clone(conv);highSpend.retirementSpendingAnnualToday=18000;
+    const hs=simulate(highSpend,{trials:10000,seed:987,keepPaths:false});
+    add('Spending direction','Higher spending does not improve success',`${(c10.successRate*100).toFixed(2)}% → ${(hs.successRate*100).toFixed(2)}%`,hs.successRate<=c10.successRate);
+    const delayed=clone(conv);delayed.retirementAge=50;delayed.contributionEndAge=50;delayed.srs.contributionEndAge=50;
+    const dr=simulate(delayed,{trials:10000,seed:987,keepPaths:false});
+    add('Retirement-age direction','Later retirement does not reduce success',`${(c10.successRate*100).toFixed(2)}% → ${(dr.successRate*100).toFixed(2)}%`,dr.successRate>=c10.successRate);
+
+    const priorIncome=clone(base);priorIncome.currentAge=70;priorIncome.retirementAge=70;priorIncome.planningAge=72;priorIncome.liquidPortfolio=0;priorIncome.monthlyContribution=0;priorIncome.retirementSpendingAnnualToday=12000;priorIncome.assetClasses[0].expectedReturn=0;priorIncome.cpfLife=[{name:'CPF LIFE',monthlyAmount:1000,startAge:65,endAge:110,annualIncrease:0}];
+    const pir=simulate(priorIncome,{trials:200,seed:9,keepPaths:false});
+    add('Income already in payment','Start age before current age is supported','100.0%',pir.successRate===1);
+
+    const result={tests, passed:tests.filter(t=>t.pass).length, total:tests.length, allPassed:tests.every(t=>t.pass)};
+    validationCache=clone(result);
+    return result;
+  }
+
+  return {
+    VERSION,
+    CPF_2026,
+    CPF_LIFE_REFERENCE,
+    clone,
+    sum,
+    quantiles,
+    wilsonInterval,
+    cholesky,
+    validateConfig,
+    weightedMoments,
+    weightsAtAge,
+    streamIncomeAtAge,
+    totalIncomeAtAge,
+    simulate,
+    deterministicProjection,
+    ageSweep,
+    spendingSweep,
+    contributionSweep,
+    earliestAgeForTarget,
+    requiredMonthlyContribution,
+    maximumMonthlySpending,
+    fiScreen,
+    sensitivityAnalysis,
+    retirementHeatmap,
+    stressTests,
+    cpfContribution2026,
+    cpfAllocationBand,
+    cpfLifeReferencePayout,
+    srsAnnualCap,
+    runValidation
+  };
+});
+
+</script>
+<script>
+(function(){
+'use strict';
+
+const M = window.SGRetirementModel;
+const $ = id => document.getElementById(id);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
+const CURRENT_KEY = 'sg-retirement-simulator-current-v2';
+const SCENARIO_KEY = 'sg-retirement-simulator-scenarios-v2';
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+const ASSET_TEMPLATE = [
+  {name:'Cash, SSB & T-bills',weight:0.15,expectedReturn:0.025,volatility:0.01},
+  {name:'Bonds & fixed income',weight:0.20,expectedReturn:0.035,volatility:0.06},
+  {name:'Global equities',weight:0.50,expectedReturn:0.065,volatility:0.18},
+  {name:'Singapore equities & REITs',weight:0.15,expectedReturn:0.060,volatility:0.20}
+];
+const CORRELATION_TEMPLATE = [
+  [1.00,0.20,0.00,0.00],
+  [0.20,1.00,-0.10,0.10],
+  [0.00,-0.10,1.00,0.70],
+  [0.00,0.10,0.70,1.00]
+];
+const PRESET_WEIGHTS = {
+  cautious:[0.30,0.35,0.25,0.10],
+  balanced:[0.15,0.20,0.50,0.15],
+  growth:[0.05,0.10,0.70,0.15],
+  retirement:[0.25,0.40,0.25,0.10]
+};
+
+function defaultState(){
+  return {
+    planName:'My retirement plan',planScope:'individual',residency:'citizen_pr',employment:'employee',
+    currentAge:null,retirementAge:null,planningAge:95,successTarget:0.90,
+    cashSavings:0,investments:0,otherLiquid:0,emergencyFund:0,srsBalance:0,cpfOA:0,cpfSARA:0,cpfMA:0,
+    monthlyContribution:0,monthlySRS:0,contributionGrowth:0.02,monthlySalary:0,oaRetainedPct:0,
+    monthlySpending:null,inflation:0.02,flexEnabled:false,flexCutPct:0.15,
+    cpfLifeMonthly:0,cpfLifeStartAge:65,cpfLifePlan:'standard',
+    srsAccessAge:64,srsWithdrawalStartAge:64,srsWithdrawalYears:10,srsTaxRate:0,
+    homeValue:0,homeMortgage:0,homeUnlockPct:0,homeUnlockAge:65,homeHaircut:0.05,
+    cpfLumpSum:0,cpfLumpSumAge:55,
+    additionalIncome:[],oneOffs:[],
+    assetPreset:'balanced',assetClasses:M.clone(ASSET_TEMPLATE),correlation:M.clone(CORRELATION_TEMPLATE),
+    fees:0.004,taxDrag:0,foreignExposure:0.50,terminalTarget:0,trials:10000,seed:20260908,
+    glidePath:false,defensiveAtRetirement:0.40,defensiveAtEnd:0.45,valueMode:'real',
+    _origins:{planningAge:'default',successTarget:'default',contributionGrowth:'default',inflation:'default',fees:'default',trials:'default',seed:'default'}
+  };
+}
+
+const EXAMPLES = {
+  early:{
+    planName:'Fictional early-career employee',planScope:'individual',residency:'citizen_pr',employment:'employee',
+    currentAge:30,retirementAge:65,planningAge:95,successTarget:0.90,
+    cashSavings:45000,investments:105000,otherLiquid:0,emergencyFund:30000,srsBalance:5000,cpfOA:65000,cpfSARA:42000,cpfMA:30000,
+    monthlyContribution:2200,monthlySRS:300,contributionGrowth:0.025,monthlySalary:6500,oaRetainedPct:0,
+    monthlySpending:3500,inflation:0.02,flexEnabled:false,flexCutPct:0.15,
+    cpfLifeMonthly:1800,cpfLifeStartAge:65,cpfLifePlan:'standard',srsAccessAge:64,srsWithdrawalStartAge:64,srsWithdrawalYears:10,srsTaxRate:0,
+    homeValue:0,homeMortgage:0,homeUnlockPct:0,homeUnlockAge:65,homeHaircut:0.05,cpfLumpSum:0,cpfLumpSumAge:55,
+    additionalIncome:[],oneOffs:[],assetPreset:'growth'
+  },
+  mid:{
+    planName:'Fictional mid-career household',planScope:'household',residency:'citizen_pr',employment:'employee',
+    currentAge:45,retirementAge:60,planningAge:98,successTarget:0.90,
+    cashSavings:180000,investments:520000,otherLiquid:30000,emergencyFund:90000,srsBalance:90000,cpfOA:240000,cpfSARA:180000,cpfMA:120000,
+    monthlyContribution:5000,monthlySRS:1000,contributionGrowth:0.02,monthlySalary:8000,oaRetainedPct:0,
+    monthlySpending:6500,inflation:0.02,flexEnabled:true,flexCutPct:0.15,
+    cpfLifeMonthly:1900,cpfLifeStartAge:65,cpfLifePlan:'standard',srsAccessAge:62,srsWithdrawalStartAge:62,srsWithdrawalYears:10,srsTaxRate:0.02,
+    homeValue:950000,homeMortgage:280000,homeUnlockPct:0,homeUnlockAge:70,homeHaircut:0.08,cpfLumpSum:0,cpfLumpSumAge:55,
+    additionalIncome:[{name:'Partner CPF LIFE',monthlyAmount:1700,startAge:67,endAge:110,annualIncrease:0}],oneOffs:[{label:'Home renovation',age:55,amountReal:-60000}],assetPreset:'balanced'
+  },
+  self:{
+    planName:'Fictional self-employed plan',planScope:'individual',residency:'citizen_pr',employment:'self_employed',
+    currentAge:40,retirementAge:63,planningAge:95,successTarget:0.90,
+    cashSavings:120000,investments:300000,otherLiquid:15000,emergencyFund:60000,srsBalance:40000,cpfOA:80000,cpfSARA:120000,cpfMA:70000,
+    monthlyContribution:3500,monthlySRS:500,contributionGrowth:0.02,monthlySalary:0,oaRetainedPct:0,
+    monthlySpending:4500,inflation:0.02,flexEnabled:true,flexCutPct:0.10,
+    cpfLifeMonthly:1700,cpfLifeStartAge:65,cpfLifePlan:'standard',srsAccessAge:64,srsWithdrawalStartAge:64,srsWithdrawalYears:10,srsTaxRate:0.01,
+    homeValue:0,homeMortgage:0,homeUnlockPct:0,homeUnlockAge:70,homeHaircut:0.05,cpfLumpSum:0,cpfLumpSumAge:55,
+    additionalIncome:[],oneOffs:[],assetPreset:'balanced'
+  },
+  foreign:{
+    planName:'Fictional foreign resident plan',planScope:'individual',residency:'foreigner',employment:'employee',
+    currentAge:38,retirementAge:60,planningAge:95,successTarget:0.90,
+    cashSavings:150000,investments:400000,otherLiquid:20000,emergencyFund:70000,srsBalance:100000,cpfOA:0,cpfSARA:0,cpfMA:0,
+    monthlyContribution:4500,monthlySRS:1500,contributionGrowth:0.02,monthlySalary:9000,oaRetainedPct:0,
+    monthlySpending:5500,inflation:0.02,flexEnabled:true,flexCutPct:0.12,
+    cpfLifeMonthly:0,cpfLifeStartAge:65,cpfLifePlan:'standard',srsAccessAge:64,srsWithdrawalStartAge:64,srsWithdrawalYears:10,srsTaxRate:0.05,
+    homeValue:0,homeMortgage:0,homeUnlockPct:0,homeUnlockAge:70,homeHaircut:0.05,cpfLumpSum:0,cpfLumpSumAge:55,
+    additionalIncome:[{name:'Overseas pension',monthlyAmount:1200,startAge:65,endAge:110,annualIncrease:0}],oneOffs:[],assetPreset:'growth'
+  },
+  near:{
+    planName:'Fictional near-retirement plan',planScope:'individual',residency:'citizen_pr',employment:'employee',
+    currentAge:58,retirementAge:64,planningAge:95,successTarget:0.90,
+    cashSavings:250000,investments:850000,otherLiquid:0,emergencyFund:80000,srsBalance:180000,cpfOA:160000,cpfSARA:300000,cpfMA:110000,
+    monthlyContribution:3000,monthlySRS:800,contributionGrowth:0.01,monthlySalary:8000,oaRetainedPct:0,
+    monthlySpending:5200,inflation:0.02,flexEnabled:true,flexCutPct:0.10,
+    cpfLifeMonthly:2500,cpfLifeStartAge:65,cpfLifePlan:'standard',srsAccessAge:62,srsWithdrawalStartAge:64,srsWithdrawalYears:10,srsTaxRate:0.02,
+    homeValue:1100000,homeMortgage:120000,homeUnlockPct:0,homeUnlockAge:72,homeHaircut:0.08,cpfLumpSum:50000,cpfLumpSumAge:60,
+    additionalIncome:[],oneOffs:[],assetPreset:'retirement'
+  },
+  retired:{
+    planName:'Fictional already-retired plan',planScope:'individual',residency:'citizen_pr',employment:'retired',
+    currentAge:67,retirementAge:67,planningAge:98,successTarget:0.90,
+    cashSavings:220000,investments:620000,otherLiquid:0,emergencyFund:50000,srsBalance:120000,cpfOA:50000,cpfSARA:0,cpfMA:95000,
+    monthlyContribution:0,monthlySRS:0,contributionGrowth:0,monthlySalary:0,oaRetainedPct:0,
+    monthlySpending:4300,inflation:0.02,flexEnabled:true,flexCutPct:0.10,
+    cpfLifeMonthly:1900,cpfLifeStartAge:67,cpfLifePlan:'standard',srsAccessAge:62,srsWithdrawalStartAge:67,srsWithdrawalYears:10,srsTaxRate:0.02,
+    homeValue:800000,homeMortgage:0,homeUnlockPct:0,homeUnlockAge:75,homeHaircut:0.08,cpfLumpSum:0,cpfLumpSumAge:67,
+    additionalIncome:[],oneOffs:[],assetPreset:'retirement'
+  }
+};
+
+let state = loadCurrentState();
+let currentStep = 1;
+let analysis = null;
+let dirty = false;
+let running = false;
+
+function mergeState(base, extra){
+  const out = M.clone(base);
+  if (!extra || typeof extra !== 'object') return out;
+  for (const [k,v] of Object.entries(extra)) {
+    if (v !== undefined) out[k] = M.clone(v);
+  }
+  if (!Array.isArray(out.assetClasses) || out.assetClasses.length !== ASSET_TEMPLATE.length) out.assetClasses=M.clone(ASSET_TEMPLATE);
+  if (!Array.isArray(out.correlation) || out.correlation.length !== ASSET_TEMPLATE.length) out.correlation=M.clone(CORRELATION_TEMPLATE);
+  if (!Array.isArray(out.additionalIncome)) out.additionalIncome=[];
+  if (!Array.isArray(out.oneOffs)) out.oneOffs=[];
+  if (!out._origins) out._origins={};
+  return out;
+}
+
+function loadCurrentState(){
+  try { const raw=localStorage.getItem(CURRENT_KEY); return raw ? mergeState(defaultState(), JSON.parse(raw)) : defaultState(); }
+  catch(e){ return defaultState(); }
+}
+function saveCurrentState(){
+  try { localStorage.setItem(CURRENT_KEY, JSON.stringify(state)); } catch(e) {}
+}
+function loadScenarios(){
+  try { return JSON.parse(localStorage.getItem(SCENARIO_KEY) || '{}') || {}; } catch(e){ return {}; }
+}
+function saveScenarios(obj){ try { localStorage.setItem(SCENARIO_KEY, JSON.stringify(obj)); } catch(e){} }
+
+function fmtMoney(v, digits=0){
+  if (!Number.isFinite(Number(v))) return 'Not available';
+  return new Intl.NumberFormat('en-SG',{style:'currency',currency:'SGD',maximumFractionDigits:digits,minimumFractionDigits:digits}).format(Number(v));
+}
+function fmtPct(v,digits=1){ return Number.isFinite(Number(v)) ? `${(Number(v)*100).toFixed(digits)}%` : 'Not available'; }
+function fmtNumber(v,digits=0){ return Number.isFinite(Number(v)) ? Number(v).toLocaleString('en-SG',{maximumFractionDigits:digits,minimumFractionDigits:digits}) : 'Not available'; }
+function fmtAge(v){ return Number.isFinite(Number(v)) ? `Age ${Math.round(Number(v))}` : 'Not reached'; }
+function compactMoney(v){
+  const x=Number(v); if(!Number.isFinite(x)) return '—';
+  const a=Math.abs(x); if(a>=1e6) return `S$${(x/1e6).toFixed(a>=1e7?1:2)}m`; if(a>=1e3) return `S$${(x/1e3).toFixed(a>=1e5?0:1)}k`; return `S$${Math.round(x)}`;
+}
+function esc(s){ return String(s??'').replace(/[&<>'"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch])); }
+function num(v, fallback=0){ if(v===null || v===undefined || v==='') return fallback; const n=Number(v); return Number.isFinite(n)?n:fallback; }
+function valueOrNull(v){ if(v===''||v===null||v===undefined) return null; const n=Number(v); return Number.isFinite(n)?n:null; }
+function showToast(text){ const el=$('toast'); el.textContent=text; el.classList.remove('hidden'); clearTimeout(showToast.t); showToast.t=setTimeout(()=>el.classList.add('hidden'),2600); }
+function scrollToId(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); }
+
+function controlValue(el){
+  if (el.type==='checkbox') return el.checked;
+  if (el.dataset.number==='1') {
+    const n=valueOrNull(el.value);
+    if (n===null) return null;
+    return el.dataset.percent==='1' ? n/100 : n;
+  }
+  return el.value;
+}
+function setControlValue(el,v){
+  if (el.type==='checkbox') { el.checked=Boolean(v); return; }
+  if (v===null||v===undefined) { el.value=''; return; }
+  const out=el.dataset.percent==='1' ? Number(v)*100 : v;
+  el.value=String(out);
+}
+function markOrigin(key,origin='user'){
+  state._origins=state._origins||{}; state._origins[key]=origin;
+  const el=document.querySelector(`[data-key="${CSS.escape(key)}"]`); const badge=el?.closest('.field')?.querySelector('.badge');
+  if(badge){ badge.className=`badge ${origin==='example'?'example':origin==='user'?'user':'default'}`; badge.textContent=origin==='example'?'Example':origin==='user'?'Your input':'Planning default'; }
+}
+function markDirty(){
+  dirty=true;
+  if(analysis) $('rerunNotice').classList.remove('hidden');
+  $('dirtyBadge').textContent='Inputs changed — rerun needed'; $('dirtyBadge').className='pill warn';
+}
+function clearDirty(){
+  dirty=false; $('rerunNotice').classList.add('hidden'); $('dirtyBadge').textContent='Results up to date'; $('dirtyBadge').className='pill good';
+}
+
+function bindStaticControls(){
+  $$('[data-key]').forEach(el=>{
+    const handler=()=>{
+      state[el.dataset.key]=controlValue(el);
+      markOrigin(el.dataset.key,'user');
+      if(el.id==='assetPreset') applyAssetPreset(el.value,true);
+      $('wizardError')?.classList.add('hidden');
+      markDirty(); refreshDerived(); saveCurrentState();
+    };
+    el.addEventListener(el.tagName==='SELECT'||el.type==='checkbox'?'change':'input',handler);
+  });
+  $('valueMode').addEventListener('change',()=>{state.valueMode=$('valueMode').value;saveCurrentState();if(analysis)renderResults();});
+}
+
+function renderStaticControls(){
+  $$('[data-key]').forEach(el=>{ const k=el.dataset.key; if(k in state) setControlValue(el,state[k]); });
+  $('valueMode').value=state.valueMode||'real';
+  for(const [k,origin] of Object.entries(state._origins||{})) markOrigin(k,origin);
+}
+
+function setState(next, origin='user'){
+  state=mergeState(defaultState(),next);
+  if(origin==='example'){
+    state._origins={};
+    for(const k of Object.keys(next)) if(!['assetClasses','correlation','additionalIncome','oneOffs','_origins'].includes(k)) state._origins[k]='example';
+  }
+  analysis=null; dirty=false; renderAll(); saveCurrentState();
+  $('resultContent').classList.add('hidden'); $('resultEmpty').classList.remove('hidden');
+  $('improveContent').classList.add('hidden'); $('improveEmpty').classList.remove('hidden');
+  $('runMeta').textContent='Not run yet'; $('rerunNotice').classList.add('hidden'); $('dirtyBadge').textContent='No simulation run'; $('dirtyBadge').className='pill warn';
+}
+
+function liquidAssets(){ return Math.max(0,num(state.cashSavings)+num(state.investments)+num(state.otherLiquid)-num(state.emergencyFund)); }
+function cpfTotal(){ return num(state.cpfOA)+num(state.cpfSARA)+num(state.cpfMA); }
+function homeProceeds(){ return Math.max(0,num(state.homeValue)-num(state.homeMortgage))*clamp01(num(state.homeUnlockPct))*(1-clamp01(num(state.homeHaircut))); }
+function clamp01(x){ return Math.max(0,Math.min(1,Number(x)||0)); }
+
+function refreshDerived(){
+  $('liquidPreview').textContent=fmtMoney(liquidAssets());
+  $('srsPreview').textContent=fmtMoney(num(state.srsBalance));
+  $('cpfPreview').textContent=fmtMoney(cpfTotal());
+  const gross=num(state.cashSavings)+num(state.investments)+num(state.otherLiquid);
+  const ew=$('emergencyWarning');
+  if(num(state.emergencyFund)>gross){ ew.classList.remove('hidden'); ew.textContent='The emergency reserve is larger than the liquid assets entered. The model therefore uses S$0 as the liquid retirement portfolio.'; } else ew.classList.add('hidden');
+  const cap=M.srsAnnualCap(state.residency); const annualSrs=num(state.monthlySRS)*12;
+  $('srsCapHelp').textContent=`Entered annual SRS contribution: ${fmtMoney(annualSrs)}. Current annual cap used for warning: ${fmtMoney(cap)}.`;
+  $('srsCapHelp').style.color=annualSrs>cap?'var(--red)':'';
+  $('cpfBalancesField').classList.toggle('hidden',state.residency==='foreigner');
+  $('cpfLifeCard').classList.toggle('hidden',state.residency==='foreigner');
+  $('cpfHelperDetails').classList.toggle('hidden',state.residency==='foreigner'||state.employment!=='employee');
+  $('homeProceedsPreview').textContent=fmtMoney(homeProceeds());
+  $('cpfLumpPreview').textContent=fmtMoney(num(state.cpfLumpSum));
+  renderCpfContributionHelper();
+  renderReviewSummary();
+  renderSingaporeContext();
+  updateWizardCompletion();
+  renderAssetTable();
+}
+
+function renderCpfContributionHelper(){
+  const target=$('cpfContributionResult');
+  if(state.residency==='foreigner') { target.innerHTML='<div class="callout info">CPF does not apply to the selected profile.</div>'; return; }
+  if(!Number.isFinite(Number(state.currentAge))||num(state.monthlySalary)<=0){ target.innerHTML='<div class="callout info">Enter a current age and monthly ordinary wage to see the 2026 contribution estimate.</div>'; return; }
+  const r=M.cpfContribution2026(state.monthlySalary,state.currentAge);
+  const retirementUse=r.sara+r.oa*clamp01(state.oaRetainedPct);
+  target.innerHTML=`
+    <div class="preview"><span>Total CPF / month</span><strong>${fmtMoney(r.total)}</strong></div>
+    <div class="preview"><span>Employer / employee</span><strong>${fmtMoney(r.employer)} / ${fmtMoney(r.employee)}</strong></div>
+    <div class="preview"><span>OA / SA-RA / MA</span><strong>${fmtMoney(r.oa)} / ${fmtMoney(r.sara)} / ${fmtMoney(r.ma)}</strong></div>
+    <div class="preview"><span>Potential retirement-use share</span><strong>${fmtMoney(retirementUse)}</strong></div>`;
+}
+
+function renderReviewSummary(){
+  const ageText=state.currentAge!==null&&state.retirementAge!==null?`${state.currentAge} → ${state.retirementAge} → ${state.planningAge}`:'Complete age inputs';
+  const cpfIncome=state.residency==='foreigner'?0:num(state.cpfLifeMonthly);
+  const firstIncome=[]; if(cpfIncome>0) firstIncome.push(num(state.cpfLifeStartAge)); if(num(state.srsBalance)>0||num(state.monthlySRS)>0) firstIncome.push(num(state.srsWithdrawalStartAge));
+  $('reviewSummary').innerHTML=`
+    <div class="preview"><span>Age now / retire / plan to</span><strong>${esc(ageText)}</strong></div>
+    <div class="preview"><span>Liquid + SRS assets</span><strong>${fmtMoney(liquidAssets()+num(state.srsBalance))}</strong></div>
+    <div class="preview"><span>Retirement spending</span><strong>${state.monthlySpending?fmtMoney(state.monthlySpending)+'/mo':'Not entered'}</strong></div>
+    <div class="preview"><span>Monthly additions</span><strong>${fmtMoney(num(state.monthlyContribution)+num(state.monthlySRS))}</strong></div>
+    <div class="preview"><span>CPF LIFE entered</span><strong>${cpfIncome?fmtMoney(cpfIncome)+'/mo':'Not entered'}</strong></div>
+    <div class="preview"><span>First later resource</span><strong>${firstIncome.length?fmtAge(Math.min(...firstIncome)):'Not entered'}</strong></div>`;
+}
+
+function updateWizardCompletion(){
+  $$('.step').forEach(btn=>{ const n=Number(btn.dataset.step); btn.classList.toggle('complete',n<currentStep); });
+}
+
+function showStep(n){
+  currentStep=Math.max(1,Math.min(5,Number(n)||1));
+  $$('[data-panel]').forEach(p=>p.classList.toggle('hidden',Number(p.dataset.panel)!==currentStep));
+  $$('.step').forEach(b=>b.classList.toggle('active',Number(b.dataset.step)===currentStep));
+  $('progressBar').style.width=`${currentStep*20}%`;
+  $('backBtn').disabled=currentStep===1;
+  $('nextBtn').classList.toggle('hidden',currentStep===5);
+  $('runWizardBtn').classList.toggle('hidden',currentStep!==5);
+  updateWizardCompletion();
+  if(currentStep===5) renderReviewSummary();
+}
+function validateWizardStep(n){
+  if(n===1){
+    if(!Number.isFinite(Number(state.currentAge))) return 'Enter your current age.';
+    if(!Number.isFinite(Number(state.retirementAge))) return 'Enter your desired retirement age.';
+    if(Number(state.retirementAge)<Number(state.currentAge)) return 'Desired retirement age cannot be below current age.';
+    if(Number(state.planningAge)<=Number(state.retirementAge)) return 'Planning age must be above retirement age.';
+  }
+  if(n===4 && !(Number(state.monthlySpending)>0)) return 'Enter desired monthly retirement spending.';
+  return '';
+}
+
+function renderOneOffRows(){
+  const body=$('oneOffBody');
+  if(!state.oneOffs.length){ body.innerHTML='<tr><td colspan="4" class="empty-row">No one-off cash flows added.</td></tr>'; return; }
+  body.innerHTML=state.oneOffs.map((r,i)=>`<tr>
+    <td><input data-oneoff="${i}" data-field="label" value="${esc(r.label||'')}"></td>
+    <td><input data-oneoff="${i}" data-field="age" type="number" min="18" max="110" value="${esc(r.age??'')}"></td>
+    <td><input data-oneoff="${i}" data-field="amountReal" type="number" step="1000" value="${esc(r.amountReal??0)}"></td>
+    <td><button class="icon-btn" data-remove-oneoff="${i}" title="Remove">×</button></td></tr>`).join('');
+  $$('[data-oneoff]').forEach(el=>el.addEventListener('input',()=>{
+    const i=Number(el.dataset.oneoff),f=el.dataset.field; state.oneOffs[i][f]=f==='label'?el.value:valueOrNull(el.value); markDirty();saveCurrentState();renderReviewSummary();
+  }));
+  $$('[data-remove-oneoff]').forEach(btn=>btn.addEventListener('click',()=>{state.oneOffs.splice(Number(btn.dataset.removeOneoff),1);markDirty();renderOneOffRows();saveCurrentState();}));
+}
+function renderIncomeRows(){
+  const body=$('incomeBody');
+  if(!state.additionalIncome.length){ body.innerHTML='<tr><td colspan="6" class="empty-row">No additional income streams added.</td></tr>'; return; }
+  body.innerHTML=state.additionalIncome.map((r,i)=>`<tr>
+    <td><input data-income="${i}" data-field="name" value="${esc(r.name||'')}"></td>
+    <td><input data-income="${i}" data-field="monthlyAmount" type="number" min="0" step="50" value="${esc(r.monthlyAmount??0)}"></td>
+    <td><input data-income="${i}" data-field="startAge" type="number" min="18" max="110" value="${esc(r.startAge??'')}"></td>
+    <td><input data-income="${i}" data-field="endAge" type="number" min="18" max="110" value="${esc(r.endAge??110)}"></td>
+    <td><input data-income="${i}" data-field="annualIncrease" type="number" min="-50" max="20" step="0.1" value="${esc((num(r.annualIncrease)*100).toFixed(1))}"></td>
+    <td><button class="icon-btn" data-remove-income="${i}" title="Remove">×</button></td></tr>`).join('');
+  $$('[data-income]').forEach(el=>el.addEventListener('input',()=>{
+    const i=Number(el.dataset.income),f=el.dataset.field; let v=f==='name'?el.value:valueOrNull(el.value); if(f==='annualIncrease'&&v!==null)v/=100; state.additionalIncome[i][f]=v;markDirty();saveCurrentState();renderReviewSummary();
+  }));
+  $$('[data-remove-income]').forEach(btn=>btn.addEventListener('click',()=>{state.additionalIncome.splice(Number(btn.dataset.removeIncome),1);markDirty();renderIncomeRows();saveCurrentState();}));
+}
+
+function applyAssetPreset(name, fromControl=false){
+  if(name==='custom'||!PRESET_WEIGHTS[name]){state.assetPreset='custom';return;}
+  PRESET_WEIGHTS[name].forEach((w,i)=>state.assetClasses[i].weight=w);
+  state.assetPreset=name;
+  if(!fromControl) setControlValue($('assetPreset'),name);
+  renderAssetTable(); markDirty();saveCurrentState();
+}
+function renderAssetTable(){
+  if(!$('assetBody')) return;
+  $('assetBody').innerHTML=state.assetClasses.map((a,i)=>`<tr>
+    <td>${esc(a.name)}</td>
+    <td><div class="input-wrap"><input data-asset="${i}" data-field="weight" type="number" min="0" max="100" step="0.1" value="${(num(a.weight)*100).toFixed(1)}"><span class="suffix">%</span></div></td>
+    <td><div class="input-wrap"><input data-asset="${i}" data-field="expectedReturn" type="number" min="-99" max="100" step="0.1" value="${(num(a.expectedReturn)*100).toFixed(1)}"><span class="suffix">%</span></div></td>
+    <td><div class="input-wrap"><input data-asset="${i}" data-field="volatility" type="number" min="0" max="100" step="0.1" value="${(num(a.volatility)*100).toFixed(1)}"><span class="suffix">%</span></div></td>
+  </tr>`).join('');
+  $$('[data-asset]').forEach(el=>el.addEventListener('input',()=>{
+    const i=Number(el.dataset.asset),f=el.dataset.field;state.assetClasses[i][f]=num(el.value)/100;state.assetPreset='custom';$('assetPreset').value='custom';markDirty();updateWeightTotal();saveCurrentState();
+  }));
+  updateWeightTotal(); renderCorrelationTable();
+}
+function updateWeightTotal(){
+  const total=state.assetClasses.reduce((s,a)=>s+num(a.weight),0); const ok=Math.abs(total-1)<1e-6;
+  $('weightTotal').className=`callout ${ok?'success':'danger'}`;
+  $('weightTotal').innerHTML=`Allocation total: <strong>${fmtPct(total,2)}</strong>${ok?'':' — adjust the weights to exactly 100% before running.'}`;
+}
+function renderCorrelationTable(){
+  const names=state.assetClasses.map(a=>a.name.replace(/Singapore /,'SG ').replace(/ & fixed income/,'').slice(0,14));
+  $('corrHead').innerHTML=`<tr><th>Asset</th>${names.map(n=>`<th>${esc(n)}</th>`).join('')}</tr>`;
+  $('corrBody').innerHTML=state.correlation.map((row,i)=>`<tr><th>${esc(names[i])}</th>${row.map((v,j)=>`<td><input data-corr-i="${i}" data-corr-j="${j}" type="number" min="-1" max="1" step="0.05" value="${num(v).toFixed(2)}" ${i===j?'readonly':''}></td>`).join('')}</tr>`).join('');
+  $$('[data-corr-i]').forEach(el=>el.addEventListener('change',()=>{
+    const i=Number(el.dataset.corrI),j=Number(el.dataset.corrJ); if(i===j)return; const v=num(el.value);state.correlation[i][j]=v;state.correlation[j][i]=v;markDirty();renderCorrelationTable();saveCurrentState();
+  }));
+}
+
+function readModelConfig(){
+  const cpfLife=[];
+  if(state.residency!=='foreigner'&&num(state.cpfLifeMonthly)>0){
+    cpfLife.push({name:'CPF LIFE',monthlyAmount:num(state.cpfLifeMonthly),startAge:num(state.cpfLifeStartAge,65),endAge:110,annualIncrease:state.cpfLifePlan==='escalating'?0.02:0});
+  }
+  const otherIncome=(state.additionalIncome||[]).filter(x=>num(x.monthlyAmount)>0).map(x=>({
+    name:x.name||'Other income',monthlyAmount:num(x.monthlyAmount),startAge:num(x.startAge),endAge:num(x.endAge,110),annualIncrease:num(x.annualIncrease)
+  }));
+  const oneOffs=(state.oneOffs||[]).filter(x=>Number.isFinite(Number(x.age))&&Number.isFinite(Number(x.amountReal))).map(x=>({label:x.label||'One-off cash flow',age:num(x.age),amountReal:num(x.amountReal)}));
+  const hp=homeProceeds();
+  return {
+    modelVersion:M.VERSION,
+    currentAge:num(state.currentAge,NaN),retirementAge:num(state.retirementAge,NaN),planningAge:num(state.planningAge,NaN),
+    liquidPortfolio:liquidAssets(),monthlyContribution:num(state.monthlyContribution),contributionGrowth:num(state.contributionGrowth),contributionEndAge:num(state.retirementAge,NaN),
+    retirementSpendingAnnualToday:num(state.monthlySpending)*12,inflation:num(state.inflation),fees:num(state.fees),taxDrag:num(state.taxDrag),
+    successTarget:num(state.successTarget,0.9),terminalTargetReal:num(state.terminalTarget),trials:num(state.trials,10000),seed:num(state.seed,1),foreignCurrencyExposure:clamp01(num(state.foreignExposure)),
+    srs:{balance:num(state.srsBalance),monthlyContribution:num(state.monthlySRS),contributionGrowth:num(state.contributionGrowth),contributionEndAge:num(state.retirementAge,NaN),accessAge:num(state.srsAccessAge,64),withdrawalStartAge:num(state.srsWithdrawalStartAge,64),withdrawalYears:num(state.srsWithdrawalYears,10),effectiveTaxRate:clamp01(num(state.srsTaxRate))},
+    cpfLife,otherIncome,oneOffs,
+    home:{enabled:hp>0,netProceedsReal:hp,age:num(state.homeUnlockAge,65)},
+    cpfLumpSum:{enabled:state.residency!=='foreigner'&&num(state.cpfLumpSum)>0,amountReal:num(state.cpfLumpSum),age:num(state.cpfLumpSumAge,55)},
+    flex:{enabled:Boolean(state.flexEnabled),maxCutPct:clamp01(num(state.flexCutPct))},
+    glidePath:Boolean(state.glidePath),defensiveAtRetirement:clamp01(num(state.defensiveAtRetirement)),defensiveAtEnd:clamp01(num(state.defensiveAtEnd)),
+    assetClasses:M.clone(state.assetClasses),correlation:M.clone(state.correlation)
+  };
+}
+
+function runPlan(source='button'){
+  if(running)return;
+  const c=readModelConfig(); const check=M.validateConfig(c);
+  const uiErrors=[];
+  if(num(state.emergencyFund)>num(state.cashSavings)+num(state.investments)+num(state.otherLiquid)) uiErrors.push('Emergency reserve exceeds the liquid assets entered.');
+  const cap=M.srsAnnualCap(state.residency); if(num(state.monthlySRS)*12>cap) uiErrors.push(`Annual SRS contribution exceeds the current ${fmtMoney(cap)} cap used for this profile. The tool does not automatically truncate it.`);
+  const errors=[...check.errors,...uiErrors];
+  if(errors.length){
+    $('wizardError').classList.remove('hidden'); $('wizardError').innerHTML=`<strong>Please correct these inputs:</strong><ul class="error-list">${errors.map(e=>`<li>${esc(e)}</li>`).join('')}</ul>`;
+    showStep(errors.some(e=>/age|retirement age|planning age/i.test(e))?1:errors.some(e=>/spending/i.test(e))?4:5);scrollToId('setupWizard');return;
+  }
+  $('wizardError').classList.add('hidden');
+  running=true; setRunButtons(true); showToast('Running simulation…');
+  setTimeout(()=>{
+    try{
+      const main=M.simulate(c,{keepPaths:true,pathSampleN:10000});
+      const diagTrials=main.trials>=50000?900:700;
+      const ageRows=M.ageSweep(c,diagTrials);
+      const spendingRows=M.spendingSweep(c,diagTrials);
+      const contributionRows=M.contributionSweep(c,diagTrials);
+      const earliest=M.earliestAgeForTarget(ageRows,c.successTarget);
+      const required=M.requiredMonthlyContribution(c,c.successTarget,800);
+      const maxSpend=M.maximumMonthlySpending(c,c.successTarget,800);
+      const stress=M.stressTests(c,main.trials>=50000?1600:1200);
+      const sensitivity=M.sensitivityAnalysis(c,main.trials>=50000?800:600);
+      const heatmap=M.retirementHeatmap(c,main.trials>=50000?500:350);
+      const fi=M.fiScreen(c);
+      const moments=M.weightedMoments(c);
+      const validation=M.runValidation();
+      analysis={config:c,main,ageRows,spendingRows,contributionRows,earliest,required,maxSpend,stress,sensitivity,heatmap,fi,moments,validation,runAt:new Date().toISOString()};
+      renderResults();renderImprove();renderValidation();clearDirty();saveCurrentState();
+      $('resultEmpty').classList.add('hidden');$('resultContent').classList.remove('hidden');$('improveEmpty').classList.add('hidden');$('improveContent').classList.remove('hidden');
+      if(source==='wizard'||source==='empty'||source==='top')scrollToId('results');
+      showToast('Simulation complete');
+    }catch(err){
+      $('wizardError').classList.remove('hidden');$('wizardError').innerHTML=`<strong>Simulation could not run:</strong> ${esc(err.message)}`;showStep(5);scrollToId('setupWizard');
+    }finally{running=false;setRunButtons(false);}
+  },40);
+}
+function setRunButtons(isBusy){
+  ['runTopBtn','runWizardBtn'].forEach(id=>{const b=$(id);b.disabled=isBusy;b.textContent=isBusy?'Running…':id==='runTopBtn'?'Run simulation':'Run my plan';});
+}
+
+function statusInfo(rate,target){
+  if(rate>=target)return {class:'good',label:'On track in this model',headline:'Your entered plan meets the selected threshold.'};
+  if(rate>=target-0.10)return {class:'warn',label:'Close to target',headline:'Your plan is close, but has limited margin in this model.'};
+  return {class:'bad',label:'Needs review',headline:'The entered plan does not yet meet your target.'};
+}
+function displayMoneyAt(valueReal,age){
+  if((state.valueMode||'real')==='real')return valueReal;
+  return valueReal*(1+analysis.config.inflation)**(age-analysis.config.currentAge);
+}
+
+function renderResults(){
+  if(!analysis)return;
+  const {config:c,main:r}=analysis; const info=statusInfo(r.successRate,c.successTarget);
+  $('successGauge').style.setProperty('--pct',(r.successRate*100).toFixed(2));$('successRate').textContent=fmtPct(r.successRate,1);
+  $('statusPill').className=`pill ${info.class}`;$('statusPill').textContent=info.label;
+  $('statusHeadline').textContent=info.headline;
+  $('statusExplanation').innerHTML=`At your desired retirement age of <strong>${c.retirementAge}</strong>, <strong>${fmtPct(r.successRate,1)}</strong> of the ${fmtNumber(r.trials)} simulated paths funded all entered retirement cash flows until reaching age <strong>${c.planningAge}</strong>. Your selected threshold is <strong>${fmtPct(c.successTarget,0)}</strong>.`;
+  $('statusCaveat').textContent='This is a percentage of paths under the selected assumptions, not a forecast probability.';
+  $('runMeta').textContent=`Model ${r.modelVersion} · Run ${new Date(analysis.runAt).toLocaleString('en-SG')} · ${fmtNumber(r.trials)} paths · seed ${r.seed}`;
+  const additional=analysis.required===null?null:Math.max(0,analysis.required-c.monthlyContribution);
+  const earliest=analysis.earliest;
+  const bridge=bridgeInfo(c);
+  const finalMedian=displayMoneyAt(r.endingPercentiles.p50,c.planningAge);
+  $('kpiGrid').innerHTML=`
+    <div class="kpi ${r.successRate>=c.successTarget?'good':'warn'}"><span>Modelled success at target age</span><strong>${fmtPct(r.successRate,1)}</strong><small>Target ${fmtPct(c.successTarget,0)}</small></div>
+    <div class="kpi info"><span>First tested age meeting target</span><strong>${earliest===null?'Not reached':earliest}</strong><small>${earliest===null?'Within the tested range':earliest>c.retirementAge?`${earliest-c.retirementAge} year(s) later`:earliest<c.retirementAge?`${c.retirementAge-earliest} year(s) earlier`:'Your target age'}</small></div>
+    <div class="kpi teal"><span>Additional monthly investment</span><strong>${additional===null?'Not reached':fmtMoney(additional)}</strong><small>Outside SRS, to target the selected threshold</small></div>
+    <div class="kpi info"><span>Supported monthly spending</span><strong>${fmtMoney(analysis.maxSpend)}</strong><small>At target age and selected threshold</small></div>
+    <div class="kpi"><span>Median liquid + SRS at retirement</span><strong>${fmtMoney(r.medianRetirementResourcesReal)}</strong><small>Today’s SGD</small></div>
+    <div class="kpi"><span>Median resources at plan end</span><strong>${fmtMoney(finalMedian)}</strong><small>${state.valueMode==='nominal'?'Nominal future SGD':'Today’s SGD'}</small></div>
+    <div class="kpi"><span>Bridge to first later resource</span><strong>${bridge.years===null?'Not entered':`${bridge.years} yr`}</strong><small>${bridge.label}</small></div>
+    <div class="kpi"><span>Terminal target met</span><strong>${fmtPct(r.terminalSuccessRate,1)}</strong><small>${c.terminalTargetReal?`Target ${fmtMoney(c.terminalTargetReal)} today`:'No terminal target entered'}</small></div>`;
+  const warnings=[...r.warnings];
+  if(cpfTotal()>0&&state.residency!=='foreigner'&&num(state.cpfLifeMonthly)===0)warnings.push('CPF balances were entered, but no CPF LIFE payout is included in the simulation.');
+  if(num(state.cpfLumpSum)>0&&num(state.cpfLifeMonthly)>0)warnings.push('Check that the entered CPF cash withdrawal is not part of the same savings used for the CPF LIFE payout.');
+  $('resultWarnings').innerHTML=warnings.length?`<div class="callout warning"><strong>Review these assumptions:</strong><ul class="error-list">${[...new Set(warnings)].map(w=>`<li>${esc(w)}</li>`).join('')}</ul></div>`:'';
+  renderAssumptions();renderPercentiles();renderFi();renderFanChart();renderDepletionChart();renderBridgeCard();renderAllocation();renderCashflowTimeline();
+}
+
+function bridgeInfo(c){
+  const sources=[];
+  if(c.srs.balance>0||c.srs.monthlyContribution>0)sources.push({age:c.srs.withdrawalStartAge,name:'SRS withdrawals'});
+  for(const s of c.cpfLife)if(s.monthlyAmount>0)sources.push({age:s.startAge,name:s.name});
+  for(const s of c.otherIncome)if(s.monthlyAmount>0)sources.push({age:s.startAge,name:s.name});
+  if(c.home.enabled&&c.home.netProceedsReal>0)sources.push({age:c.home.age,name:'home proceeds'});
+  if(c.cpfLumpSum.enabled&&c.cpfLumpSum.amountReal>0)sources.push({age:c.cpfLumpSum.age,name:'CPF cash'});
+  if(!sources.length)return {years:null,label:'No later income entered',source:null};
+  sources.sort((a,b)=>a.age-b.age);const first=sources[0];return {years:Math.max(0,first.age-c.retirementAge),label:first.name+' starts at '+first.age,source:first};
+}
+function renderAssumptions(){
+  const c=analysis.config,m=analysis.moments;
+  $('assumptionList').innerHTML=`
+    <div><dt>Age now / retire / plan to</dt><dd>${c.currentAge} / ${c.retirementAge} / ${c.planningAge}</dd></div>
+    <div><dt>Liquid portfolio</dt><dd>${fmtMoney(c.liquidPortfolio)}</dd></div>
+    <div><dt>SRS balance</dt><dd>${fmtMoney(c.srs.balance)}</dd></div>
+    <div><dt>Monthly investment / SRS</dt><dd>${fmtMoney(c.monthlyContribution)} / ${fmtMoney(c.srs.monthlyContribution)}</dd></div>
+    <div><dt>Monthly spending today</dt><dd>${fmtMoney(c.retirementSpendingAnnualToday/12)}</dd></div>
+    <div><dt>CPF LIFE entered</dt><dd>${c.cpfLife.length?fmtMoney(c.cpfLife[0].monthlyAmount)+' from '+c.cpfLife[0].startAge:'None'}</dd></div>
+    <div><dt>Inflation / fees</dt><dd>${fmtPct(c.inflation)} / ${fmtPct(c.fees)}</dd></div>
+    <div><dt>Expected portfolio return</dt><dd>${fmtPct(m.expectedNominalReturn,2)} nominal</dd></div>
+    <div><dt>Portfolio volatility</dt><dd>${fmtPct(m.volatility,2)}</dd></div>
+    <div><dt>Expected real return after costs</dt><dd>${fmtPct(m.realAfterCosts,2)}</dd></div>`;
+}
+function renderPercentiles(){
+  const c=analysis.config,r=analysis.main;const rows=[['5th','p5'],['10th','p10'],['25th','p25'],['50th','p50'],['75th','p75'],['90th','p90'],['95th','p95']];
+  $('percentileBody').innerHTML=rows.map(([label,key])=>`<tr><td>${label}</td><td class="num">${fmtMoney(displayMoneyAt(r.endingPercentiles[key],c.planningAge))}</td></tr>`).join('');
+}
+function renderFi(){
+  $('fiBody').innerHTML=analysis.fi.map(x=>`<tr><td>${fmtPct(x.rate,1)}</td><td class="num">${fmtMoney(x.target)}</td><td class="num">${fmtPct(Math.min(1,x.progress),1)}</td><td>${x.years.Conservative??'—'} / ${x.years.Base??'—'} / ${x.years.Optimistic??'—'}</td></tr>`).join('');
+}
+
+function svgEl(tag,attrs={}){const el=document.createElementNS(SVG_NS,tag);for(const[k,v]of Object.entries(attrs))el.setAttribute(k,String(v));return el;}
+function pathFrom(points){return points.map((p,i)=>`${i?'L':'M'}${p[0].toFixed(2)},${p[1].toFixed(2)}`).join(' ');}
+function niceMax(v){ if(v<=0)return 1;const p=10**Math.floor(Math.log10(v));const n=v/p;return (n<=1?1:n<=2?2:n<=5?5:10)*p; }
+function baseChart(container,title){
+  const width=760,height=330,left=64,right=20,top=42,bottom=276;const svg=svgEl('svg',{viewBox:`0 0 ${width} ${height}`,role:'img','aria-label':title});
+  const t=svgEl('text',{x:20,y:25,class:'chart-title'});t.textContent=title;svg.appendChild(t);container.innerHTML='';container.appendChild(svg);return{svg,width,height,left,right,top,bottom,w:width-left-right,h:bottom-top};
+}
+function drawAxes(ctx,xTicks,yTicks,xMap,yMap,xFormat,yFormat){
+  const {svg,left,right,top,bottom,width}=ctx;
+  yTicks.forEach(v=>{const y=yMap(v);svg.appendChild(svgEl('line',{x1:left,x2:width-right,y1:y,y2:y,class:'gridline'}));const tx=svgEl('text',{x:left-8,y:y+3,'text-anchor':'end',class:'tick'});tx.textContent=yFormat(v);svg.appendChild(tx);});
+  xTicks.forEach(v=>{const x=xMap(v);const tx=svgEl('text',{x,y:bottom+20,'text-anchor':'middle',class:'tick'});tx.textContent=xFormat(v);svg.appendChild(tx);});
+  svg.appendChild(svgEl('line',{x1:left,x2:left,y1:top,y2:bottom,class:'axis'}));svg.appendChild(svgEl('line',{x1:left,x2:width-right,y1:bottom,y2:bottom,class:'axis'}));
+}
+function renderFanChart(){
+  const c=analysis.config,rows=analysis.main.pathPercentiles;if(!rows)return;
+  const ctx=baseChart($('fanChart'),`Retirement resources over time — ${state.valueMode==='nominal'?'nominal SGD':'today’s SGD'}`);
+  const map=rows.map(r=>{const f=state.valueMode==='nominal'?(1+c.inflation)**(r.age-c.currentAge):1;return{...r,p5:r.p5*f,p10:r.p10*f,p25:r.p25*f,p50:r.p50*f,p75:r.p75*f,p90:r.p90*f,p95:r.p95*f};});
+  const max=niceMax(Math.max(...map.map(r=>r.p95),1));const X=a=>ctx.left+(a-c.currentAge)/(c.planningAge-c.currentAge)*ctx.w;const Y=v=>ctx.bottom-v/max*ctx.h;
+  const wide=[...map.map(r=>[X(r.age),Y(r.p95)]),...map.slice().reverse().map(r=>[X(r.age),Y(r.p5)])];ctx.svg.appendChild(svgEl('path',{d:pathFrom(wide)+' Z',class:'band-wide'}));
+  const mid=[...map.map(r=>[X(r.age),Y(r.p75)]),...map.slice().reverse().map(r=>[X(r.age),Y(r.p25)])];ctx.svg.appendChild(svgEl('path',{d:pathFrom(mid)+' Z',class:'band-mid'}));
+  ctx.svg.appendChild(svgEl('path',{d:pathFrom(map.map(r=>[X(r.age),Y(r.p50)])),class:'median-line'}));
+  const xTicks=Array.from({length:6},(_,i)=>Math.round(c.currentAge+i*(c.planningAge-c.currentAge)/5));const yTicks=Array.from({length:5},(_,i)=>i*max/4);drawAxes(ctx,xTicks,yTicks,X,Y,v=>String(v),compactMoney);
+  [c.retirementAge,...c.cpfLife.map(x=>x.startAge),c.srs.withdrawalStartAge].filter((v,i,a)=>v>=c.currentAge&&v<=c.planningAge&&a.indexOf(v)===i).forEach(age=>{ctx.svg.appendChild(svgEl('line',{x1:X(age),x2:X(age),y1:ctx.top,y2:ctx.bottom,class:'target-line'}));});
+  const note=svgEl('text',{x:ctx.left,y:ctx.height-12,class:'tick'});note.textContent=`Band: 5th–95th and 25th–75th percentiles; median line. Path chart sample: ${fmtNumber(analysis.main.pathSampleN)}.`;ctx.svg.appendChild(note);
+}
+function renderDepletionChart(){
+  const data=analysis.main.depletionByAge,ctx=baseChart($('depletionChart'),'Cumulative share of paths depleted by age');
+  const min=data[0]?.age||analysis.config.retirementAge,maxAge=data[data.length-1]?.age||analysis.config.planningAge;const X=a=>ctx.left+(a-min)/(maxAge-min||1)*ctx.w;const Y=v=>ctx.bottom-v*ctx.h;
+  const maxP=Math.max(...data.map(d=>d.probability),0.01);const yMax=Math.min(1,Math.max(0.25,Math.ceil(maxP*4)/4));const yMap=v=>ctx.bottom-v/yMax*ctx.h;
+  drawAxes(ctx,Array.from({length:6},(_,i)=>Math.round(min+i*(maxAge-min)/5)),Array.from({length:5},(_,i)=>i*yMax/4),X,yMap,v=>String(v),v=>fmtPct(v,0));
+  ctx.svg.appendChild(svgEl('path',{d:pathFrom(data.map(d=>[X(d.age),yMap(d.probability)])),class:'line orange'}));
+}
+function renderBridgeCard(){
+  const c=analysis.config;const items=[{age:c.currentAge,name:'Today'},{age:c.retirementAge,name:'Desired retirement'}];
+  if(c.srs.balance>0||c.srs.monthlyContribution>0)items.push({age:c.srs.withdrawalStartAge,name:'SRS starts'});
+  c.cpfLife.forEach(s=>items.push({age:s.startAge,name:s.name+' starts'}));
+  c.otherIncome.forEach(s=>items.push({age:s.startAge,name:s.name+' starts'}));
+  if(c.home.enabled)items.push({age:c.home.age,name:'Home proceeds'});if(c.cpfLumpSum.enabled)items.push({age:c.cpfLumpSum.age,name:'CPF cash'});items.push({age:c.planningAge,name:'Plan end'});items.sort((a,b)=>a.age-b.age);
+  const bridge=bridgeInfo(c);$('bridgeCard').innerHTML=`<h3>Your retirement bridge</h3><div class="callout ${bridge.years===null?'warning':bridge.years>5?'warning':'info'}">${bridge.years===null?'No CPF LIFE, SRS or other later income has been entered.':bridge.years===0?'At least one entered later resource is available by retirement.':`Liquid assets need to bridge about <strong>${bridge.years} year(s)</strong> until ${esc(bridge.label)}.`}</div><div class="table-wrap"><table><thead><tr><th>Age</th><th>Milestone</th></tr></thead><tbody>${items.map(i=>`<tr><td>${i.age}</td><td>${esc(i.name)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+
+function renderAllocation(){
+  const c=analysis.config;
+  const palette=['#1769aa','#087f8c','#7c3aed','#c66a08','#18864b','#b42318','#667085','#0b2545'];
+  let cursor=0;const stops=[];
+  c.assetClasses.forEach((a,i)=>{const start=cursor*100;cursor+=a.weight;const end=cursor*100;stops.push(`${palette[i%palette.length]} ${start.toFixed(3)}% ${end.toFixed(3)}%`);});
+  const legend=c.assetClasses.map((a,i)=>`<div><span class="swatch" style="background:${palette[i%palette.length]}"></span><span>${esc(a.name)}</span><strong>${fmtPct(a.weight,1)}</strong></div>`).join('');
+  $('allocationCard').innerHTML=`<h3>Starting asset allocation</h3><div class="donut-layout"><div class="allocation-donut" style="background:conic-gradient(${stops.join(',')})"><div class="allocation-center"><strong>100%</strong><span>entered allocation</span></div></div><div class="legend">${legend}</div></div><p class="help">${c.glidePath?'The optional glide path changes defensive weights over time; this chart shows the starting allocation.':'The model rebalances annually to these weights.'}</p>`;
+}
+
+function renderCashflowTimeline(){
+  const c=analysis.config;const rows=[];
+  for(let age=c.currentAge;age<c.planningAge;age++){
+    const y=age-c.currentAge;const infl=(1+c.inflation)**y;
+    const liquidContribution=age<c.retirementAge?c.monthlyContribution*12*(1+c.contributionGrowth)**y:0;
+    const srsContribution=age<c.retirementAge?c.srs.monthlyContribution*12*(1+c.srs.contributionGrowth)**y:0;
+    const spending=age>=c.retirementAge?c.retirementSpendingAnnualToday*infl:0;
+    const income=age>=c.retirementAge?M.totalIncomeAtAge(c,age):0;
+    const factor=state.valueMode==='real'?1/infl:1;
+    rows.push({age,contributions:(liquidContribution+srsContribution)*factor,spending:spending*factor,income:income*factor});
+  }
+  const ctx=baseChart($('cashflowChart'),`Entered annual cash-flow timeline — ${state.valueMode==='real'?"today’s SGD":'nominal SGD'}`);
+  const max=niceMax(Math.max(1,...rows.flatMap(r=>[r.contributions,r.spending,r.income])));
+  const X=a=>ctx.left+(a-c.currentAge)/(Math.max(1,c.planningAge-1-c.currentAge))*ctx.w;const Y=v=>ctx.bottom-v/max*ctx.h;
+  const xTicks=Array.from({length:6},(_,i)=>Math.round(c.currentAge+i*(c.planningAge-1-c.currentAge)/5));const yTicks=Array.from({length:5},(_,i)=>i*max/4);
+  drawAxes(ctx,xTicks,yTicks,X,Y,v=>String(v),compactMoney);
+  const series=[['contributions','line blue'],['spending','line orange'],['income','line green']];
+  series.forEach(([key,cls])=>{if(rows.some(r=>r[key]>0))ctx.svg.appendChild(svgEl('path',{d:pathFrom(rows.map(r=>[X(r.age),Y(r[key])])),class:cls}));});
+  const note=svgEl('text',{x:ctx.left,y:ctx.height-12,class:'tick'});note.textContent='Blue: contributions · Orange: retirement spending · Green: entered retirement income. One-off cash flows are excluded from this chart.';ctx.svg.appendChild(note);
+}
+
+function renderSensitivityChart(){
+  const data=analysis.sensitivity;if(!data||!data.rows.length){$('sensitivityChart').innerHTML='<h3>Sensitivity</h3><p class="muted">No sensitivity results available.</p>';return;}
+  const rows=data.rows;const width=760,height=Math.max(350,80+rows.length*42),left=245,right=35,top=48,bottom=42,w=width-left-right;
+  const svg=svgEl('svg',{viewBox:`0 0 ${width} ${height}`,role:'img','aria-label':'Sensitivity of simulated success rate'});
+  const title=svgEl('text',{x:20,y:25,class:'chart-title'});title.textContent='Sensitivity of simulated success rate';svg.appendChild(title);
+  const X=v=>left+clamp01(v)*w;
+  [0,.25,.5,.75,1].forEach(v=>{const x=X(v);svg.appendChild(svgEl('line',{x1:x,x2:x,y1:top-4,y2:height-bottom,class:'gridline'}));const tx=svgEl('text',{x,y:height-18,'text-anchor':'middle',class:'tick'});tx.textContent=fmtPct(v,0);svg.appendChild(tx);});
+  const baseX=X(data.baseline);svg.appendChild(svgEl('line',{x1:baseX,x2:baseX,y1:top-8,y2:height-bottom,class:'target-line'}));const bt=svgEl('text',{x:baseX,y:top-13,'text-anchor':'middle',class:'tick'});bt.textContent=`Baseline ${fmtPct(data.baseline,1)}`;svg.appendChild(bt);
+  rows.forEach((r,i)=>{
+    const y=top+i*42+14;const x1=X(Math.min(r.low,r.high)),x2=X(Math.max(r.low,r.high));
+    const name=svgEl('text',{x:left-10,y:y-3,'text-anchor':'end',class:'tick'});name.textContent=r.name;svg.appendChild(name);
+    const range=svgEl('text',{x:left-10,y:y+11,'text-anchor':'end',class:'tick'});range.textContent=`${r.lowLabel} / ${r.highLabel}`;svg.appendChild(range);
+    svg.appendChild(svgEl('rect',{x:x1,y:y-10,width:Math.max(3,x2-x1),height:16,rx:8,class:'bar'}));
+    svg.appendChild(svgEl('circle',{cx:X(r.low),cy:y-2,r:5,fill:'#1769aa'}));svg.appendChild(svgEl('circle',{cx:X(r.high),cy:y-2,r:5,fill:'#c66a08'}));
+    const nearRight=x2>width-right-82;const val=svgEl('text',{x:nearRight?x2-7:x2+7,y:y+2,'text-anchor':nearRight?'end':'start',class:'tick'});val.textContent=`${fmtPct(r.low,0)} / ${fmtPct(r.high,0)}`;svg.appendChild(val);
+  });
+  const note=svgEl('text',{x:left,y:height-4,class:'tick'});note.textContent=`Blue dot: lower-input case · Orange dot: higher-input case · ${fmtNumber(data.trials)} diagnostic paths, common seed.`;svg.appendChild(note);
+  $('sensitivityChart').innerHTML='';$('sensitivityChart').appendChild(svg);
+}
+
+function heatCellStyle(rate,target){
+  if(rate>=target){const a=.18+.34*Math.min(1,(rate-target)/Math.max(.01,1-target));return `background:rgba(24,134,75,${a.toFixed(2)});color:#0f4f2d`;}
+  if(rate>=target-.10){const a=.18+.28*(rate-(target-.10))/.10;return `background:rgba(198,106,8,${a.toFixed(2)});color:#6b3900`;}
+  const a=.14+.30*Math.max(0,Math.min(1,(target-.10-rate)/Math.max(.10,target-.10)));return `background:rgba(180,35,24,${a.toFixed(2)});color:#7f1d16`;
+}
+function renderHeatmap(){
+  const h=analysis.heatmap,c=analysis.config;if(!h){$('heatmapCard').innerHTML='<h3>Retirement age and spending heat map</h3><p class="muted">No heat-map results available.</p>';return;}
+  const head=h.ages.map(a=>`<th${a===c.retirementAge?' style="outline:2px solid var(--navy);outline-offset:-2px"':''}>Age ${a}</th>`).join('');
+  const body=h.rows.map(r=>`<tr><td><strong>${fmtMoney(r.monthlySpending)}/mo</strong>${Math.abs(r.multiplier-1)<1e-9?'<br><small>entered</small>':''}</td>${r.values.map((v,i)=>`<td class="heat-cell" style="${heatCellStyle(v,c.successTarget)}${h.ages[i]===c.retirementAge&&Math.abs(r.multiplier-1)<1e-9?';outline:3px solid var(--navy);outline-offset:-3px':''}">${fmtPct(v,0)}</td>`).join('')}</tr>`).join('');
+  $('heatmapCard').innerHTML=`<h3>Retirement age and spending heat map</h3><p class="help">Each cell shows the simulated success rate for a retirement age and monthly spending level. The outlined cell is your entered plan.</p><div class="table-wrap"><table class="heat-table"><thead><tr><th>Spending today</th>${head}</tr></thead><tbody>${body}</tbody></table></div><div class="heat-legend"><span><i class="swatch" style="background:rgba(24,134,75,.42)"></i>At/above target</span><span><i class="swatch" style="background:rgba(198,106,8,.34)"></i>Within 10 points</span><span><i class="swatch" style="background:rgba(180,35,24,.32)"></i>Below target</span><span>${fmtNumber(h.trials)} paths/cell · common seed</span></div>`;
+}
+
+function renderImprove(){
+  if(!analysis)return;const c=analysis.config;const add=analysis.required===null?null:Math.max(0,analysis.required-c.monthlyContribution);const ageDelta=analysis.earliest===null?null:analysis.earliest-c.retirementAge;const spendDelta=c.retirementSpendingAnnualToday/12-analysis.maxSpend;
+  $('leverCards').innerHTML=`
+    <div class="card lever"><h3>Retire later</h3><div class="value">${analysis.earliest===null?'Not reached':fmtAge(analysis.earliest)}</div><p>${analysis.earliest===null?'The selected threshold was not reached in the tested age range.':ageDelta>0?`About ${ageDelta} year(s) later than your target.`:ageDelta===0?'Your target age already reaches the threshold.':`The model suggests the threshold may be reached ${Math.abs(ageDelta)} year(s) earlier.`}</p></div>
+    <div class="card lever"><h3>Invest more each month</h3><div class="value">${add===null?'Not reached':fmtMoney(add)}</div><p>${add&&add>0?'Additional liquid investment outside SRS under the selected assumptions.':'No increase is required to meet the selected threshold in this run.'}</p></div>
+    <div class="card lever"><h3>Adjust retirement spending</h3><div class="value">${fmtMoney(analysis.maxSpend)}/mo</div><p>${spendDelta>0?`About ${fmtMoney(spendDelta)} below the amount entered.`:'The entered spending is within the modelled threshold.'}</p></div>`;
+  renderSimpleLine($('ageChart'),analysis.ageRows,'age','successRate','Success rate by retirement age',v=>String(Math.round(v)),v=>fmtPct(v,0),c.successTarget);
+  renderSimpleLine($('spendingChart'),analysis.spendingRows,'monthlySpending','successRate','Success rate by monthly retirement spending',v=>compactMoney(v),v=>fmtPct(v,0),c.successTarget);
+  renderSimpleLine($('contributionChart'),analysis.contributionRows,'monthlyContribution','successRate','Success rate by monthly liquid investment',v=>compactMoney(v),v=>fmtPct(v,0),c.successTarget);
+  renderSensitivityChart();
+  renderHeatmap();
+  $('plainDrivers').innerHTML=`<h3>What drives your result</h3><ol>
+    <li><strong>Retirement spending:</strong> every S$100 a month changes lifetime withdrawals across many years.</li>
+    <li><strong>Time:</strong> delaying retirement adds contributions and removes withdrawal years.</li>
+    <li><strong>CPF LIFE and SRS timing:</strong> early retirees need enough liquid assets before these begin.</li>
+    <li><strong>Inflation:</strong> the base model uses ${fmtPct(c.inflation,1)} a year and stress-tests a higher rate.</li>
+    <li><strong>Investment outcomes:</strong> the entered portfolio assumption is ${fmtPct(analysis.moments.expectedNominalReturn,2)} expected nominal return with ${fmtPct(analysis.moments.volatility,2)} volatility.</li>
+  </ol><div class="callout info">The most useful next step is usually to improve the accuracy of spending, CPF LIFE and sustainable monthly contributions before fine-tuning market assumptions.</div>`;
+  $('stressBody').innerHTML=analysis.stress.map(s=>`<tr><td>${esc(s.name)}</td><td class="num">${fmtPct(s.successRate,1)}</td><td class="num">${fmtMoney(s.medianEnding)}</td><td class="num">${fmtMoney(s.p10Ending)}</td><td>${s.medianDepletionAge??'Not depleted'}</td></tr>`).join('');
+}
+function renderSimpleLine(container,data,xKey,yKey,title,xFmt,yFmt,target){
+  const ctx=baseChart(container,title);if(!data.length)return;const xs=data.map(d=>num(d[xKey])),ys=data.map(d=>num(d[yKey]));const xmin=Math.min(...xs),xmax=Math.max(...xs);const ymax=1;const X=x=>ctx.left+(x-xmin)/(xmax-xmin||1)*ctx.w;const Y=y=>ctx.bottom-y/ymax*ctx.h;
+  const xTicks=Array.from({length:6},(_,i)=>xmin+i*(xmax-xmin)/5);const yTicks=[0,.25,.5,.75,1];drawAxes(ctx,xTicks,yTicks,X,Y,xFmt,yFmt);ctx.svg.appendChild(svgEl('path',{d:pathFrom(data.map(d=>[X(num(d[xKey])),Y(num(d[yKey]))])),class:'line'}));
+  if(Number.isFinite(Number(target))){const y=Y(target);ctx.svg.appendChild(svgEl('line',{x1:ctx.left,x2:ctx.width-ctx.right,y1:y,y2:y,class:'target-line'}));const tx=svgEl('text',{x:ctx.width-ctx.right-2,y:y-5,'text-anchor':'end',class:'tick'});tx.textContent=`Target ${fmtPct(target,0)}`;ctx.svg.appendChild(tx);}
+}
+
+function renderSingaporeContext(){
+  if(!$('sgBridgeSummary'))return;
+  const c=readModelConfig();
+  if(!Number.isFinite(c.currentAge)||!Number.isFinite(c.retirementAge)){
+    $('sgBridgeSummary').textContent='Enter your current and desired retirement ages to see the bridge.';$('sgMilestoneTable').innerHTML='';
+  }else{
+    const b=bridgeInfo(c);const before55=Math.max(0,55-c.retirementAge);const before65=Math.max(0,65-c.retirementAge);
+    $('sgBridgeSummary').innerHTML=`You plan to retire at <strong>${c.retirementAge}</strong>. ${before55?`That is <strong>${before55} year(s)</strong> before age 55. `:''}${before65?`It is <strong>${before65} year(s)</strong> before the earliest CPF LIFE start age. `:''}${b.years===null?'No later retirement income is currently entered.':`The first entered later resource begins at age <strong>${b.source.age}</strong>.`}`;
+    const milestones=[['Desired retirement',c.retirementAge],['SRS withdrawal start',(c.srs.balance||c.srs.monthlyContribution)?c.srs.withdrawalStartAge:'Not used'],['CPF LIFE start',c.cpfLife.length?Math.min(...c.cpfLife.map(x=>x.startAge)):'Not entered'],['Planning age',c.planningAge]];
+    $('sgMilestoneTable').innerHTML=`<div class="table-wrap"><table><tbody>${milestones.map(([n,a])=>`<tr><td>${esc(n)}</td><td class="num"><strong>${esc(a)}</strong></td></tr>`).join('')}</tbody></table></div>`;
+  }
+  const age=Number.isFinite(Number(state.currentAge))?Number(state.currentAge):null;const salary=num(state.monthlySalary);
+  if(state.residency==='foreigner')$('sgCpfHelper').innerHTML='<div class="callout info">CPF is not included for the selected profile. Use the other-income rows for an overseas pension or annuity.</div>';
+  else if(age===null||salary<=0)$('sgCpfHelper').innerHTML='<p class="muted">Enter age and monthly ordinary wage in the optional CPF helper to see a 2026 estimate.</p>';
+  else{const r=M.cpfContribution2026(salary,age);$('sgCpfHelper').innerHTML=`<div class="preview-grid"><div class="preview"><span>Total monthly CPF</span><strong>${fmtMoney(r.total)}</strong></div><div class="preview"><span>OA</span><strong>${fmtMoney(r.oa)}</strong></div><div class="preview"><span>SA / RA</span><strong>${fmtMoney(r.sara)}</strong></div><div class="preview"><span>MediSave</span><strong>${fmtMoney(r.ma)}</strong></div></div><div class="callout info">Based on ordinary wages capped at S$8,000 and full 2026 Citizen / third-year PR rates. Bonuses and Additional Wages are excluded.</div>`;}
+  const cap=M.srsAnnualCap(state.residency),annual=num(state.monthlySRS)*12,over=annual>cap;
+  $('sgSrsChecks').innerHTML=`<div class="callout ${over?'danger':'info'}"><strong>Annual contribution entered:</strong> ${fmtMoney(annual)}<br><strong>Current cap used for warning:</strong> ${fmtMoney(cap)}${over?'<br>This exceeds the cap; revise the monthly amount.':''}</div><ul><li>Penalty-free age is based on the statutory retirement age when the first SRS contribution was made.</li><li>Only 50% of qualifying retirement-age withdrawals is taxable, and withdrawals can generally be spread over ten years.</li><li>The simulator uses your selected effective rate on the taxable half; it does not calculate full progressive tax.</li><li>Early-withdrawal penalties and special foreigner concessions are not modelled.</li></ul>`;
+}
+
+function renderValidation(){
+  const v=analysis?.validation||M.runValidation();$('validationSummary').className=`callout ${v.allPassed?'success':'danger'}`;$('validationSummary').innerHTML=`<strong>${v.passed} of ${v.total}</strong> implementation checks passed.${v.allPassed?'':' Review failed items before relying on the tool.'}`;
+  $('validationBody').innerHTML=v.tests.map(t=>`<tr><td><span class="status-dot ${t.pass?'pass':'fail'}"></span>${t.pass?'Pass':'Fail'}</td><td>${esc(t.name)}</td><td>${esc(t.expected)}</td><td>${esc(t.actual)}</td></tr>`).join('');
+}
+
+function renderScenarioSelect(){
+  const scenarios=loadScenarios();const sel=$('scenarioSelect');const current=sel.value;sel.innerHTML='<option value="">Current plan</option>'+Object.keys(scenarios).sort().map(k=>`<option value="${esc(k)}">${esc(k)}</option>`).join('');if(scenarios[current])sel.value=current;
+}
+function resultSummary(){
+  if(!analysis)return null;return{runAt:analysis.runAt,successRate:analysis.main.successRate,target:analysis.config.successTarget,retirementAge:analysis.config.retirementAge,planningAge:analysis.config.planningAge,monthlySpending:analysis.config.retirementSpendingAnnualToday/12,liquidAssets:analysis.config.liquidPortfolio,srsBalance:analysis.config.srs.balance,earliestAge:analysis.earliest,additionalMonthly:analysis.required===null?null:Math.max(0,analysis.required-analysis.config.monthlyContribution),sustainableMonthly:analysis.maxSpend,medianEnding:analysis.main.endingPercentiles.p50,trials:analysis.main.trials,seed:analysis.main.seed};
+}
+function saveScenario(nameArg){
+  const name=(nameArg||prompt('Scenario name',state.planName||'My plan')||'').trim();if(!name)return;
+  const obj=loadScenarios();obj[name]={state:M.clone(state),summary:resultSummary(),savedAt:new Date().toISOString()};saveScenarios(obj);renderScenarioSelect();$('scenarioSelect').value=name;showToast(`Saved “${name}”`);
+}
+function loadScenario(name){const obj=loadScenarios();if(!obj[name])return;setState(obj[name].state,'user');$('scenarioSelect').value=name;showToast(`Loaded “${name}”. Rerun to refresh results.`);}
+function duplicateScenario(){const base=($('scenarioSelect').value||state.planName||'Scenario')+' copy';saveScenario(base);}
+function renameScenario(){const old=$('scenarioSelect').value;if(!old){showToast('Select a saved scenario first.');return;}const name=(prompt('New scenario name',old)||'').trim();if(!name||name===old)return;const obj=loadScenarios();obj[name]=obj[old];delete obj[old];saveScenarios(obj);renderScenarioSelect();$('scenarioSelect').value=name;showToast('Scenario renamed');}
+function compareScenarios(){
+  const obj=loadScenarios();const rows=Object.entries(obj);let html='<thead><tr><th>Scenario</th><th>Saved</th><th>Retire age</th><th>Monthly spending</th><th>Success</th><th>First target age</th><th>Additional monthly</th><th>Median ending</th></tr></thead><tbody>';
+  if(!rows.length)html+='<tr><td colspan="8" class="empty-row">No saved scenarios yet.</td></tr>';
+  else html+=rows.map(([name,v])=>{const s=v.summary;return`<tr><td><strong>${esc(name)}</strong></td><td>${new Date(v.savedAt).toLocaleDateString('en-SG')}</td>${s?`<td>${s.retirementAge}</td><td>${fmtMoney(s.monthlySpending)}</td><td>${fmtPct(s.successRate,1)}</td><td>${s.earliestAge??'—'}</td><td>${s.additionalMonthly===null?'—':fmtMoney(s.additionalMonthly)}</td><td>${fmtMoney(s.medianEnding)}</td>`:'<td colspan="6">Saved before running; load and run it.</td>'}</tr>`;}).join('');
+  $('compareTable').innerHTML=html+'</tbody>';$('compareModal').classList.remove('hidden');
+}
+function exportPlan(){
+  const payload={format:'Singapore Retirement Readiness Simulator',modelVersion:M.VERSION,exportedAt:new Date().toISOString(),state:M.clone(state),summary:resultSummary()};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(state.planName||'Singapore_Retirement_Plan').replace(/[^a-z0-9-_]+/gi,'_')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function importPlan(file){
+  if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const p=JSON.parse(reader.result);const incoming=p.state||p.config||p;if(!incoming||typeof incoming!=='object')throw new Error('No plan data found.');setState(incoming,'user');showToast('Plan imported. Rerun the simulation.');}catch(e){alert('Could not import this file: '+e.message);}};reader.readAsText(file);
+}
+function resetAll(){if(!confirm('Reset every input and clear the current unsaved plan? Saved scenarios will remain.'))return;setState(defaultState(),'user');showStep(1);scrollToId('start');showToast('Inputs reset');}
+
+function renderAll(){renderStaticControls();renderOneOffRows();renderIncomeRows();renderAssetTable();refreshDerived();renderValidation();renderScenarioSelect();showStep(currentStep);}
+
+function bindButtons(){
+  $$('.step').forEach(b=>b.addEventListener('click',()=>showStep(b.dataset.step)));
+  $('backBtn').addEventListener('click',()=>showStep(currentStep-1));
+  $('nextBtn').addEventListener('click',()=>{const e=validateWizardStep(currentStep);if(e){showToast(e);return;}showStep(currentStep+1);});
+  $('runWizardBtn').addEventListener('click',()=>runPlan('wizard'));$('runTopBtn').addEventListener('click',()=>runPlan('top'));
+  ['openSetupBtn','emptySetupBtn','editAssumptionsBtn'].forEach(id=>$(id).addEventListener('click',()=>{showStep(1);scrollToId('start');}));
+  $$('[data-example]').forEach(b=>b.addEventListener('click',()=>{const ex=mergeState(defaultState(),EXAMPLES[b.dataset.example]);if(PRESET_WEIGHTS[ex.assetPreset])PRESET_WEIGHTS[ex.assetPreset].forEach((w,i)=>ex.assetClasses[i].weight=w);setState(ex,'example');showStep(1);showToast('Loaded fictional example data. Replace it with your own numbers.');}));
+  $('addOneOffBtn').addEventListener('click',()=>{state.oneOffs.push({label:'Major expense',age:num(state.retirementAge||state.currentAge||65),amountReal:-50000});renderOneOffRows();markDirty();saveCurrentState();});
+  $('addIncomeBtn').addEventListener('click',()=>{state.additionalIncome.push({name:state.planScope==='household'?'Partner CPF LIFE':'Other retirement income',monthlyAmount:0,startAge:65,endAge:110,annualIncrease:0});renderIncomeRows();markDirty();saveCurrentState();});
+  $('useBudgetBtn').addEventListener('click',()=>{const total=['budgetCore','budgetHousing','budgetHealth','budgetLifestyle'].reduce((s,id)=>s+num($(id).value),0);state.monthlySpending=total;setControlValue($('monthlySpending'),total);markOrigin('monthlySpending','user');markDirty();refreshDerived();saveCurrentState();showToast(`Monthly spending set to ${fmtMoney(total)}`);});
+  $('estimateCpfBtn').addEventListener('click',()=>{const ra=num($('cpfReferenceRA').value),age=num(state.cpfLifeStartAge,65);const r=M.cpfLifeReferencePayout(ra,age);const el=$('cpfReferenceResult');el.classList.remove('hidden');el.innerHTML=`Rough reference: <strong>${fmtMoney(r.monthly)} per month</strong> from age ${r.startAge}. This uses published 2026 male Standard Plan examples and is not an official personal estimate. <button class="btn soft small" id="useCpfEstimateBtn" type="button">Use this amount</button>`;setTimeout(()=>{$('useCpfEstimateBtn')?.addEventListener('click',()=>{state.cpfLifeMonthly=Math.round(r.monthly/10)*10;setControlValue($('cpfLifeMonthly'),state.cpfLifeMonthly);markOrigin('cpfLifeMonthly','user');markDirty();refreshDerived();saveCurrentState();showToast('Rough CPF reference amount copied. Verify it with CPF Board.');});},0);});
+  $('saveScenarioBtn').addEventListener('click',()=>saveScenario());$('duplicateBtn').addEventListener('click',duplicateScenario);$('renameBtn').addEventListener('click',renameScenario);$('compareBtn').addEventListener('click',compareScenarios);$('closeCompareBtn').addEventListener('click',()=>$('compareModal').classList.add('hidden'));$('compareModal').addEventListener('click',e=>{if(e.target===$('compareModal'))$('compareModal').classList.add('hidden');});
+  $('scenarioSelect').addEventListener('change',()=>{if($('scenarioSelect').value)loadScenario($('scenarioSelect').value);});
+  $('exportBtn').addEventListener('click',exportPlan);$('importInput').addEventListener('change',e=>importPlan(e.target.files[0]));$('resetBtn').addEventListener('click',resetAll);
+  $$('.nav-link').forEach(a=>a.addEventListener('click',()=>{$$('.nav-link').forEach(x=>x.classList.remove('active'));a.classList.add('active');}));
+}
+
+bindStaticControls();bindButtons();renderAll();
+
+})();
+
+</script>
+</body>
+</html>
